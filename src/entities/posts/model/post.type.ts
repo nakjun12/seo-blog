@@ -8,9 +8,11 @@ export type Categories = (typeof CategiriesList)[number];
 
 export interface Frontmatter {
 	title: string;
-	date: string;
 	description: string;
 	categories: Categories[];
+	writeDate: string;
 	releaseDate: string;
-	writer: string;
+	authorName: string;
+	authorIcon:string;
+	authorIntro:string;
 }

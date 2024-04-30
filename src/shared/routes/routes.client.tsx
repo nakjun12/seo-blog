@@ -15,8 +15,6 @@ import {
 export const useInternalRouter = <
 	T extends DefaultRouterType = DefaultRouterType,
 >() => {
-	type hi = RoutesQueryAndPath<T>["pathname"];
-
 	const router = useRouter();
 	const pathname = usePathname();
 	const serachParams = useSearchParams();
