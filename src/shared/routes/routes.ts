@@ -15,9 +15,18 @@ export const createRoutes = <T extends DefaultRouterType = DefaultRouterType>(
 	useRouter: () => useInternalRouter<T>(),
 });
 
+/**
+ * @description typesafe하게 routes를 관리하는 객체입니다. 사용 예시는 다음과 같습니다.
+ * @example
+ * const router = Routes.home.useRouter()
+ * const onClick = () => router.push(Routes.posts.path({pathname:['nakjoon']}))
+ */
 export const Routes = {
 	useRouter: <T extends DefaultRouterType = DefaultRouterType>() =>
 		useInternalRouter<T>(),
 	home: createRoutes("/"),
-	posts: createRoutes<{ catchAll: "slug" }>("/posts"),
+	posts: createRoutes<{
+		pathname: [["slug", "nakjoon" | "first-post"]];
+		catchAll: "slug";
+	}>("/posts"),
 };
