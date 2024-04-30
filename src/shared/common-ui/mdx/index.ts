@@ -1,1 +1,1 @@
-export * from './mdx-remote'
+export * from "./mdx-remote";

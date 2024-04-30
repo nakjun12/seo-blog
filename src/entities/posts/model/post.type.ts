@@ -13,6 +13,6 @@ export interface Frontmatter {
 	writeDate: string;
 	releaseDate: string;
 	authorName: string;
-	authorIcon:string;
-	authorIntro:string;
+	authorIcon: string;
+	authorIntro: string;
 }
