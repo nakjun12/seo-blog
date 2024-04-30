@@ -1,3 +1,4 @@
+import { Providers } from "@/src/app/provider";
 import "@/src/app/style/tailwind.css";
 
 import type { Metadata } from "next";
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>{children}</body>
+			<Providers>
+				<body className={inter.className}>{children}</body>
+			</Providers>
 		</html>
 	);
 }
