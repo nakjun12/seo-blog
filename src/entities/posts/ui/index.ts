@@ -1,2 +1,2 @@
-export * from './mdx-components'
-export * from './mdx-remote'
+export * from "./mdx-components";
+export * from "./mdx-remote";

@@ -11,16 +11,16 @@ export function NextImage(props: HTMLProps<HTMLImageElement>) {
 			// eslint-disable-next-line @next/next/no-img-element
 			return <img src={src} alt={src} width={width} height={height} />;
 		}
-			return (
-				<Image
-					width={width}
-					height={height}
-					alt={props.alt || ""}
-					crossOrigin="anonymous"
-					src={src}
-					placeholder="empty"
-				/>
-			);
+		return (
+			<Image
+				width={width}
+				height={height}
+				alt={props.alt || ""}
+				crossOrigin="anonymous"
+				src={src}
+				placeholder="empty"
+			/>
+		);
 	}
-		return <p>Currently, image is not available. {src}</p>;
+	return <p>Currently, image is not available. {src}</p>;
 }

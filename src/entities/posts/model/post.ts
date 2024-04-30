@@ -56,7 +56,6 @@ export const getFrontmatter = async (source: string): Promise<Frontmatter> => {
 	return frontmatter;
 };
 
-
 export const getAllPosts = async () => {
 	return (
 		await Promise.all(

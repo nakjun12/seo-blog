@@ -1,3 +1,3 @@
 export const Layout = () => {
-    return null
-}
+	return null;
+};
