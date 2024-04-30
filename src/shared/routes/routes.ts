@@ -19,4 +19,5 @@ export const Routes = {
 	useRouter: <T extends DefaultRouterType = DefaultRouterType>() =>
 		useInternalRouter<T>(),
 	home: createRoutes("/"),
+	posts: createRoutes<{ catchAll: "slug" }>("/posts"),
 };
