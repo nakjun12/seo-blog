@@ -2,16 +2,16 @@
 
 해당 마크다운 문서에서는 코드베이스를 활용하는 방법을 다룹니다.
 
-# 코드 읽는법
+# 코드 읽는
 
 1. 폴더를 차근차근 흝어보면 다음과 같은 컴포넌트들을 발견할 수 있습니다.
 
 ```tsx
 export const PostAuthor = () => {
-	return null;
+  return null;
 };
-
 ```
+
 이렇게 null을 리턴하는 컴포넌트들의 경우 위치에 대한 고민 없이 세부사항을 구현만 하면 되는 경우입니다.
 
 해당 컴포넌트들을 구현하면서 추가적으로 필요한 컴포넌트들은 자유롭게 생성하면 되겠습니다.
@@ -32,7 +32,6 @@ export { Routes };
 ```
 
 실제로 해당 폴더에서는 내부적으로 많은 import, export가 이루어지지만 외부로 노출시키고 싶은 코드는 Routes 하나이기에 이것만 export 합니다.
-
 
 # fsd 가이드
 
@@ -80,26 +79,26 @@ entities 계층은 주로 도메인 모델을 표현하는 데에 사용하는 �
 
 예컨대 현재 저희의 블로그 프로젝트의 경우 entities 계층에 배치되는 대표적인 것은 posts의 구조입니다.
 
-
 src/entities/posts/model/post.type.ts
+
 ```tsx
 export type Post = {
-	content: string;
-	filePath: string[];
+  content: string;
+  filePath: string[];
 };
 
 export const CategiriesList = ["react"] as const;
 export type Categories = (typeof CategiriesList)[number];
 
 export interface Frontmatter {
-	title: string;
-	description: string;
-	categories: Categories[];
-	writeDate: string;
-	releaseDate: string;
-	authorName: string;
-	authorIcon:string;
-	authorIntro:string;
+  title: string;
+  description: string;
+  categories: Categories[];
+  writeDate: string;
+  releaseDate: string;
+  authorName: string;
+  authorIcon: string;
+  authorIntro: string;
 }
 ```
 
@@ -123,7 +122,6 @@ features의 경우 블로그 프로젝트에서는 크게 사용할일이 많지
 
 widgets의 경우 대표적으로 headers , footer 등이 포함될 수 있습니다.
 
-
 # routing 방법
 
 src/shared/routes/routes.ts 파일을 확인하세요
@@ -136,15 +134,14 @@ src/shared/routes/routes.ts 파일을 확인하세요
  * const onClick = () => router.push(Routes.posts.path({pathname:['nakjoon']}))
  */
 export const Routes = {
-	useRouter: <T extends DefaultRouterType = DefaultRouterType>() =>
-		useInternalRouter<T>(),
-	home: createRoutes("/"),
-	posts: createRoutes<{
-		pathname: [["slug", "nakjoon" | "first-post"]];
-		catchAll: "slug";
-	}>("/posts"),
+  useRouter: <T extends DefaultRouterType = DefaultRouterType>() =>
+    useInternalRouter<T>(),
+  home: createRoutes("/"),
+  posts: createRoutes<{
+    pathname: [["slug", "nakjoon" | "first-post"]];
+    catchAll: "slug";
+  }>("/posts")
 };
-
 ```
 
 해당 객체를 활용하여 타입세이프한 라우팅, path 생성을 수행합니다.
@@ -152,35 +149,33 @@ export const Routes = {
 새로운 path의 추가가 필요할 경우 다음 api 스펙을 참고하여 생성하세요
 
 ```tsx
-
 type DefaultQuery = Record<string, any>;
 type DefaultPathname = Array<[string, any]>;
 
 export type DefaultRouterType = {
-	query?: DefaultQuery;
-	pathname?: DefaultPathname;
-	catchAll?: string;
+  query?: DefaultQuery;
+  pathname?: DefaultPathname;
+  catchAll?: string;
 };
 
 export const createRoutes = <T extends DefaultRouterType = DefaultRouterType>(
-	basePath: RoutesString,
+  basePath: RoutesString
 ) => ({
-	path: (arg?: RoutesQueryAndPath<T>["arg"]) =>
-		createInternalPath(basePath, arg),
-	useRouter: () => useInternalRouter<T>(),
+  path: (arg?: RoutesQueryAndPath<T>["arg"]) =>
+    createInternalPath(basePath, arg),
+  useRouter: () => useInternalRouter<T>()
 });
 ```
 
 해당 Routes 객체는 다음과 같이 활용할 수 있습니다.
 
 ```tsx
-const router = Routes.useRouter<{query:{hello:'world'|'string'}}>()
+const router = Routes.useRouter<{ query: { hello: "world" | "string" } }>();
 ```
 
 ```tsx
-const router = Routes.posts.useRouter()
-router.push(Routes.home.path())
+const router = Routes.posts.useRouter();
+router.push(Routes.home.path());
 ```
 
 실제로 들어올 수 있는 쿼리스트링, path에 대한 타입 인텔리센스 처리를 수행하며 쿼리스트링, 라우트 관리에 추상화를 더한 코드입니다.
-
