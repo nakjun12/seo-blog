@@ -1,1 +1,2 @@
-export * from "./footer";
+import { Footer } from "./footer";
+export { Footer };

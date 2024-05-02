@@ -1,1 +1,2 @@
-export * from "./throttle";
+import { throttle } from "./throttle";
+export { throttle };
