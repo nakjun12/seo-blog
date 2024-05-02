@@ -1,0 +1,27 @@
+# Workflow name
+name: Seo Blog Build
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies for Flower House Project
+        run: pnpm install
+
+      - name: Build the project
+        run: pnpm run build
+
+      - name: Check build status
+        run: echo "Build completed successfully!"
