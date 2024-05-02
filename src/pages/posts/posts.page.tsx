@@ -1,3 +1,5 @@
 export const PostsPage = () => {
-	return null;
+	return <div />;
 };
+
+export default PostsPage

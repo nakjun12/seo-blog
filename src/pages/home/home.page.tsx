@@ -1,3 +1,5 @@
-export const HomePage = () => {
-	return null;
+ const HomePage = () => {
+	return <div />;
 };
+
+export default HomePage
