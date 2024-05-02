@@ -5,9 +5,10 @@ name: Check NextJs build
 
 on:
   push:
-    branches: ["main"]
+    branches: [main]
   pull_request:
-    types: [opened, reopened]
+    branches: [main]
+
   workflow_dispatch:
 
 permissions:
