@@ -19,6 +19,9 @@ const config: Config = {
 					600: "#212529",
 				},
 			},
+			fontWeight: {
+				regular: "400",
+			},
 		},
 		screens: {
 			xs: "320px",
