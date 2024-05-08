@@ -1,9 +1,14 @@
 import { Providers } from "@/src/app/provider";
 import "@/src/app/style/tailwind.css";
+import localFont from "next/font/local";
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-const inter = Inter({ subsets: ["latin"] });
+
+const pretendard = localFont({
+	src: "../public/font/PretendardVariable.woff2",
+	variable: "--font-pretendard",
+	display: "block",
+});
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -18,7 +23,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<Providers>
-				<body className={inter.className}>{children}</body>
+				<body className={`${pretendard.variable} font-pretendard`}>
+					{children}
+				</body>
 			</Providers>
 		</html>
 	);

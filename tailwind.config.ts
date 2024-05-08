@@ -19,6 +19,19 @@ const config: Config = {
 					600: "#212529",
 				},
 			},
+			fontWeight: {
+				regular: "400",
+			},
+		},
+		screens: {
+			xs: "320px",
+			sm: "480px",
+			md: "768px",
+			lg: "1064px",
+			xl: "1300px",
+		},
+		fontFamily: {
+			pretendard: ["var(--font-pretendard)"],
 		},
 	},
 	plugins: [],
