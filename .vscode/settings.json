@@ -4,6 +4,9 @@
   "files.trimTrailingWhitespace": true,
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit"
+  },
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
