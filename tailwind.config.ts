@@ -27,6 +27,9 @@ const config: Config = {
 			lg: "1064px",
 			xl: "1300px",
 		},
+		fontFamily: {
+			pretendard: ["var(--font-pretendard)"],
+		},
 	},
 	plugins: [],
 };
