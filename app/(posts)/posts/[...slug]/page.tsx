@@ -11,5 +11,6 @@ interface PostProps {
 export default async function Home({ params: { slug } }: PostProps) {
 	const post = await getPost(slug);
 	if (!post) return redirect("/");
+	console.log(post);
 	return <PostsPage />;
 }

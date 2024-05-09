@@ -5,7 +5,7 @@ categories: "react"
 writeDate: "2024-05-09T16:28:45Z"
 releaseDate: "2024-05-09T16:28:45Z"
 authorName: 황상윤
-authorIcon: ![alt text](../public/authorIcon/testIcon.png)
+authorIcon: ../public/authorIcon/testIcon.png
 authorIntro: 안녕하세요 황상윤 입니다.
 ---
 
