@@ -1,4 +1,6 @@
 import Image from "next/image";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
 
 interface PostAuthorHeadProps {
 	authorName: string;
@@ -11,6 +13,9 @@ export const PostAuthorHead = ({
 	authorIcon,
 	writeDate,
 }: PostAuthorHeadProps) => {
+	dayjs.locale("ko");
+	const date = dayjs(writeDate);
+
 	return (
 		<div className="flex h-10 gap-2.5 my-1">
 			<Image
@@ -23,7 +28,7 @@ export const PostAuthorHead = ({
 			/>
 			<div className="flex flex-col text-1218 text-seo-400 py-0.5">
 				<span>{authorName}</span>
-				<time>{writeDate}</time>
+				<time>{date.format("YYYY.MM.DD")}</time>
 			</div>
 		</div>
 	);
