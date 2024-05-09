@@ -19,7 +19,10 @@ const config: Config = {
 					600: "#212529",
 				},
 			},
-			fontSize: {
+			fontWeight: {
+				regular: "400",
+			},
+      fontSize: {
 				1218: ["12px", "18px"],
 				1222: ["12px", "22px"],
 				1418: ["14px", "18px"],
@@ -34,6 +37,16 @@ const config: Config = {
 				1830: ["18px", "30px"],
 				2640: ["26px", "40px"],
 			},
+		},
+		screens: {
+			xs: "320px",
+			sm: "480px",
+			md: "768px",
+			lg: "1064px",
+			xl: "1300px",
+		},
+		fontFamily: {
+			pretendard: ["var(--font-pretendard)"],
 		},
 	},
 	plugins: [],
