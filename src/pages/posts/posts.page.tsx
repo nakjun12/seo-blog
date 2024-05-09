@@ -1,4 +1,5 @@
 import type { Frontmatter, Post } from "@/src/entities/posts/model/post.type";
+import { PostAuthorFoot } from "@/src/entities/posts/ui/post-author-foot";
 import { PostAuthorHead } from "@/src/entities/posts/ui/post-author-head";
 import { PostTitle } from "@/src/entities/posts/ui/post-title";
 import { MdxRemote } from "@/src/shared/common-ui/mdx";
@@ -17,6 +18,11 @@ export const PostsPage = ({ post }: PostProps) => {
 				writeDate={post.writeDate}
 			/>
 			<MdxRemote source={post.content} />
+			<PostAuthorFoot
+				authorName={post.authorName}
+				authorIcon={post.authorIcon}
+				authorIntro={post.authorIntro}
+			/>
 		</>
 	);
 };
