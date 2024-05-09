@@ -11,7 +11,7 @@ interface MdxRemoteProps {
 }
 export const MdxRemote = ({ source }: MdxRemoteProps) => {
 	return (
-		<div className="">
+		<article className="">
 			<MDXRemote
 				source={source}
 				components={MDXComponents}
@@ -55,6 +55,6 @@ export const MdxRemote = ({ source }: MdxRemoteProps) => {
 					},
 				}}
 			/>
-		</div>
+		</article>
 	);
 };
