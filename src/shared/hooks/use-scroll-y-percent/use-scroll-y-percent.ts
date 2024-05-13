@@ -5,20 +5,31 @@ import { throttle } from "../../utils/throttle";
 const THROTTLE_LIMIT = 50;
 
 export const useScrollYPercent = () => {
-	const [scrollYPercent, setScrollYPercent] = useState(0);
+	const [scrollYPercent, setScrollYPercent] = useState<number>(0);
 
 	useEffect(() => {
-		const totalHeight =
-			document.documentElement.scrollHeight - window.innerHeight;
-
-		const handleScroll = () => {
+		const calculateScrollPercentage = () => {
+			const totalHeight =
+				document.documentElement.scrollHeight - window.innerHeight;
 			setScrollYPercent((window.scrollY / totalHeight) * 100);
 		};
 
-		const throttleHandleScroll = throttle(handleScroll, THROTTLE_LIMIT);
+		const handleScroll = throttle(() => {
+			calculateScrollPercentage();
+		}, THROTTLE_LIMIT);
 
-		window.addEventListener("scroll", throttleHandleScroll);
-		return () => window.removeEventListener("scroll", throttleHandleScroll);
+		const handleResize = () => {
+			calculateScrollPercentage();
+		};
+		calculateScrollPercentage();
+
+		window.addEventListener("scroll", handleScroll);
+		window.addEventListener("resize", handleResize);
+
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+			window.removeEventListener("resize", handleResize);
+		};
 	}, []);
 
 	return scrollYPercent;
