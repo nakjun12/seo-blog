@@ -1,5 +1,5 @@
 import { getPost } from "@/src/entities/posts/model/post";
-import { PostsPage } from "@/src/pages/posts/posts.page";
+import { PostsPage } from "@/src/_pages/posts/posts.page";
 import { redirect } from "next/navigation";
 
 interface PostProps {
