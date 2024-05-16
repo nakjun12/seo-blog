@@ -38,7 +38,8 @@ export const createMetaData = ({
 			description: post.description,
 		},
 		robots: {
-			index: isReleased,
+			// todo: 나중에 포스팅시 isReleased로 치환
+			index: false,
 		},
 	};
 };
