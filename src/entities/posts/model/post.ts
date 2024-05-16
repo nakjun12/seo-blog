@@ -1,7 +1,6 @@
-import fs from "node:fs";
 import { compileMDX } from "next-mdx-remote/rsc";
+import fs from "node:fs";
 import path from "node:path";
-
 import type { Frontmatter, Post } from "./post.type";
 
 const postsDirectory = path.join(process.cwd(), "posts");
