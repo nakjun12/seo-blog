@@ -37,6 +37,83 @@ const config: Config = {
 				1830: ["1.125rem", "1.875rem"],
 				2640: ["1.625rem", "2.5rem"],
 			},
+			typography: {
+				DEFAULT: {
+					css: {
+						h2: {
+							color: "#212529",
+							fontSize: 24,
+							fontWeight: 600,
+						},
+						h3: {
+							color: "#212529",
+							fontSize: 20,
+							fontWeight: 600,
+						},
+						h4: {
+							color: "#212529",
+							fontSize: 18,
+							fontWeight: 600,
+						},
+						p: {
+							color: "#495057",
+							fontSize: 16,
+							fontWeight: 400,
+						},
+						ul: {
+							margin: 0,
+							paddingLeft: "1.5rem",
+							li: {
+								padding: 0,
+								margin: 0,
+							},
+						},
+						li: {
+							color: "#495057",
+							fontSize: 16,
+							fontWeight: 400,
+							"&::marker": {
+								color: "#495057",
+							},
+						},
+						blockquote: {
+							backgroundColor: "#F1F3F5",
+							borderInlineStartColor: "#495057",
+							borderTopRightRadius: "0.25rem",
+							borderBottomRightRadius: "0.25rem",
+							quotes: "none",
+							fontStyle: "normal",
+							margin: 0,
+							padding: "1rem",
+							p: {
+								margin: 0,
+								padding: 0,
+							},
+						},
+						code: {
+							color: "#495057",
+							fontWeight: 600,
+							padding: "0.1rem 0.3rem",
+							borderRadius: 3,
+							background: "#F1F3F5",
+							border: "1px solid #C4CDD7",
+							margin: "0 0.3rem",
+							"&::before, &::after": {
+								display: "none",
+							},
+						},
+						a: {
+							color: "#3182ce",
+							"&:hover": {
+								color: "#2c5282",
+							},
+						},
+						img: {
+							margin: "auto",
+						},
+					},
+				},
+			},
 		},
 		screens: {
 			xs: "320px",
@@ -49,6 +126,9 @@ const config: Config = {
 			pretendard: ["var(--font-pretendard)"],
 		},
 	},
-	plugins: [],
+	variants: {
+		typography: ["dark"],
+	},
+	plugins: [require("@tailwindcss/typography")],
 };
 export default config;
