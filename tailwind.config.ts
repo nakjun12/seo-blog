@@ -49,6 +49,9 @@ const config: Config = {
 			pretendard: ["var(--font-pretendard)"],
 		},
 	},
-	plugins: [],
+	variants: {
+		typography: ["dark"],
+	},
+	plugins: [require("@tailwindcss/typography")],
 };
 export default config;
