@@ -1,3 +1,7 @@
+import {
+	GOOGLE_ANALYTICS_ID,
+	GOOGLE_TAG_MANAGER_ID,
+} from "@/src/shared/config/constant";
 import Script from "next/script";
 
 export default function GoogleAddon() {
@@ -10,7 +14,7 @@ export default function GoogleAddon() {
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-PRDXHX4C');
+            })(window,document,'script','dataLayer', '${GOOGLE_TAG_MANAGER_ID}');
           `}
 			</Script>
 			{/* Google Ads Script */}
@@ -22,7 +26,7 @@ export default function GoogleAddon() {
 
 			{/* Google Analytics - Global site tag (gtag.js) */}
 			<Script
-				src="https://www.googletagmanager.com/gtag/js?id=G-1MEMCRD60Z"
+				src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}"
 				strategy="afterInteractive"
 				async
 			/>
@@ -31,7 +35,7 @@ export default function GoogleAddon() {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-1MEMCRD60Z');
+            gtag('config', '${GOOGLE_ANALYTICS_ID}');
           `}
 			</Script>
 		</>
