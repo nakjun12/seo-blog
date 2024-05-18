@@ -5,7 +5,6 @@ import "@/src/app/style/tailwind.css";
 import { SITE_NAME } from "@/src/shared/config/constant";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Head from "next/head";
 
 const pretendard = localFont({
 	src: "../public/font/PretendardVariable.woff2",
@@ -28,15 +27,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="ko">
-			<Head>
-				<GoogleAddon />
-			</Head>
+			<GoogleAddon />
 			<Providers>
 				<body className={`${pretendard.variable} font-pretendard`}>
 					{children}
+					<NoscriptTagManager />
 				</body>
 			</Providers>
-			<NoscriptTagManager />
 		</html>
 	);
 }
