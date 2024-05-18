@@ -16,5 +16,12 @@
 	"editor.defaultFormatter": "biomejs.biome",
 	"markdown.copyFiles.destination": {
 		"/posts/**/*": "../../public/${documentRelativeDirName}/${documentBaseName}/"
+	},
+	"[markdown]": {
+		"editor.quickSuggestions": {
+			"other": "on",
+			"comments": "inline",
+			"strings": "inline"
+		}
 	}
 }
