@@ -3,7 +3,7 @@ export type Post = {
 	filePath: string[];
 };
 
-export const CategiriesList = ["react"] as const;
+export const CategiriesList = ["react", "next"] as const;
 export type Categories = (typeof CategiriesList)[number];
 
 export interface Frontmatter {

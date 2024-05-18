@@ -12,7 +12,7 @@ interface PostProps {
 		slug: string[];
 	};
 }
-export default async function Home({ params: { slug } }: PostProps) {
+export default async function Post({ params: { slug } }: PostProps) {
 	const post = await getPost(slug);
 	if (!post) return redirect("/");
 	return <PostsPage post={post} />;
