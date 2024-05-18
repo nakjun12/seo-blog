@@ -10,7 +10,9 @@ interface PostProps {
 export default async function Category({ params: { slug } }: PostProps) {
 	const posts = await getAllPosts();
 
-	const allCategory = posts.filter((post) => post.filePath[0].includes(slug));
+	const allCategory = posts.filter(
+		(post) => post.filePath[0].split("\\")[1] === slug,
+	);
 
 	return (
 		<>
