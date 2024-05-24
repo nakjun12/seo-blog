@@ -1,30 +1,46 @@
 import Image from "next/image";
+import Link from "next/link";
+import type { Frontmatter, Post } from "../model/post.type";
+import dayjs from "dayjs";
 
-const data = {
-	title: "타이틀",
-	src: "",
-	description:
-		"타인의 범죄행위로 인하여 생명·신체에 대한 피해를 받은 국민은 법률이 정하는 바에 의하여 국가로부터 ...",
-	author: "김명진",
-	time: "2024-05-09T16:28:45Z",
-};
+interface PostProps {
+	post: Post & Frontmatter;
+}
 
-export const PostCard = () => {
+export const PostCard = ({ post }: PostProps) => {
+	dayjs.locale("ko");
+	const date = dayjs(post.releaseDate).format("YYYY.MM.DD");
+
 	return (
-		<article className="">
-			<header className="">
-				<Image src="/test_bg.webp" alt="test" width={288} height={150} />
-				<h2 className="">{data.title}</h2>
-			</header>
-			<section className="">
-				<p>{data.description}</p>
-			</section>
-			<footer className="">
-				<time dateTime={data.time} className="">
-					{data.time}
-				</time>
-				<span className="">{data.author}</span>
-			</footer>
-		</article>
+		<li className="flex h-full flex-col gap-3 overflow-hidden rounded-md border shadow-md transition hover:shadow-xl">
+			<Link href={post.filePath[0]} title={post.title}>
+				<article>
+					<header className="flex flex-col">
+						<div className="relative w-full aspect-[2/1] rounded-t-md border-b">
+							<Image
+								src={post.thumbnail}
+								alt={post.title}
+								title={post.title}
+								placeholder="empty"
+								fill
+								priority
+								sizes="(max-width: 000px) 50vw, 450px"
+							/>
+						</div>
+						<h2 className="px-4 pt-5 text-1624 font-semibold sm:text-1825 md:text-1624">
+							{post.title}
+						</h2>
+					</header>
+					<section className="px-4 pt-2 pb-5 text-1422 sm:text-1622 md:text-1422">
+						<p className="min-h-20">{post.description}</p>
+					</section>
+					<footer className="flex px-4 py-3 gap-1.5 text-seo-500 text-1222 border-t sm:text-1422 md:text-1222">
+						<time dateTime={date}>{date}</time>
+						<p>|</p>
+						<span>{post.authorName}</span>
+					</footer>
+				</article>
+			</Link>
+		</li>
 	);
 };

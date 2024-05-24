@@ -1,6 +1,6 @@
 import { getAllPosts } from "@/src/entities/posts/model/post";
+import { PostCard } from "@/src/entities/posts/ui/post-card";
 import { Breadcrumb } from "@/src/shared/common-ui/breadcrumb";
-import Link from "next/link";
 
 interface PostProps {
 	params: {
@@ -18,13 +18,9 @@ export default async function Category({ params: { slug } }: PostProps) {
 		<>
 			<Breadcrumb />
 			{allCategory.map((post) => {
-				return (
-					<div key={post.title}>
-						<Link title={post.title} href={post.filePath[0]}>
-							{post.title}
-						</Link>
-					</div>
-				);
+				console.log(posts);
+				console.log(allCategory);
+				return <PostCard key={post.releaseDate} post={post} />;
 			})}
 		</>
 	);
