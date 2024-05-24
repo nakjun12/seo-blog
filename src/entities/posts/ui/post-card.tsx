@@ -13,7 +13,11 @@ export const PostCard = ({ post }: PostProps) => {
 
 	return (
 		<li className="flex h-full flex-col gap-3 rounded-md border shadow-md transition hover:shadow-xl">
-			<Link href={post.filePath[0]} title={post.title} className="h-full">
+			<Link
+				href={post.filePath.join("/")}
+				title={post.title}
+				className="h-full"
+			>
 				<article className="flex flex-col h-full">
 					<header className="flex-shrink-0">
 						<div className="relative w-full aspect-[2/1] rounded-t-md border-b">
