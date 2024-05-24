@@ -27,13 +27,11 @@ const readDirectory = (directory: string): Pick<Post, "filePath">[] => {
 
 const findPostFile = (directory: string, filePath: string[]): Post | null => {
 	const fullPath = path.join(directory, ...filePath);
-	console.log("findPostFile", fullPath);
 	const fileExtensions = [".md", ".mdx"];
 	for (const ext of fileExtensions) {
 		const fullFilePath = `${fullPath}${ext}`;
 		if (fs.existsSync(fullFilePath)) {
 			const content = fs.readFileSync(fullFilePath, "utf8");
-			console.log(filePath);
 			return { content, filePath };
 		}
 	}
@@ -56,7 +54,6 @@ export const getCategoryPosts = async (filePath: string) => {
 	return (
 		await Promise.all(
 			readDirectory(fullPath).map((path) => {
-				// console.log(path);
 				return getPost(path.filePath);
 			}),
 		)

@@ -10,14 +10,11 @@ interface PostProps {
 export const PostCard = ({ post }: PostProps) => {
 	dayjs.locale("ko");
 	const date = dayjs(post.releaseDate).format("YYYY.MM.DD");
+	const postLink = `/posts/${post.filePath.join("/")}`;
 
 	return (
 		<li className="flex h-full flex-col gap-3 rounded-md border shadow-md transition hover:shadow-xl">
-			<Link
-				href={post.filePath.join("/")}
-				title={post.title}
-				className="h-full"
-			>
+			<Link href={postLink} title={post.title} className="h-full">
 				<article className="flex flex-col h-full">
 					<header className="flex-shrink-0">
 						<div className="relative w-full aspect-[2/1] rounded-t-md border-b">
