@@ -24,7 +24,7 @@ export const PostAuthorFoot = ({
 				/>
 			</div>
 
-			<div className="flex flex-col gap-3 text-1218 text-seo-400 py-0.5 sm:gap-2">
+			<div className="flex flex-col gap-3 text-1218 text-seo-500 py-0.5 sm:gap-2">
 				<span className="text-seo-600 text-1618 font-semibold sm:text-1818">
 					{authorName}
 				</span>

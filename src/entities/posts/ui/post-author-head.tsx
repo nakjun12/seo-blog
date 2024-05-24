@@ -27,7 +27,7 @@ export const PostAuthorHead = ({
 				src={authorIcon}
 				className="rounded-full"
 			/>
-			<div className="flex flex-col text-1218 text-seo-400 py-0.5">
+			<div className="flex flex-col text-1218 text-seo-500 py-0.5">
 				<span>{authorName}</span>
 				<time>{date.format("YYYY.MM.DD")}</time>
 			</div>
