@@ -16,9 +16,9 @@ const readDirectory = (directory: string): Pick<Post, "filePath">[] => {
 			if (file.isFile() && path.extname(file.name) === ".mdx") {
 				const filePath = fullPath
 					.replace(postsDirectory, "")
-					.replace(/^\/+/, "")
+					.replace(/^\\+/, "")
 					.replace(/\.mdx$/, "")
-					.split("/");
+					.split("\\");
 				posts.push({ filePath });
 			}
 			return posts;
@@ -42,9 +42,23 @@ export const getPost = async (
 	filePath: string[],
 ): Promise<(Post & Frontmatter) | null> => {
 	const post = findPostFile(postsDirectory, filePath);
+
 	if (!post) return null;
 	const frontmatter = await getFrontmatter(post.content);
 	return Object.assign(post, frontmatter);
+};
+
+export const getCategoryPosts = async (filePath: string) => {
+	const fullPath = path.join(postsDirectory, filePath);
+
+	return (
+		await Promise.all(
+			readDirectory(fullPath).map((path) => {
+				// console.log(path);
+				return getPost(path.filePath);
+			}),
+		)
+	).filter((post) => post !== null) as Array<Post & Frontmatter>;
 };
 
 export const getFrontmatter = async (source: string): Promise<Frontmatter> => {
