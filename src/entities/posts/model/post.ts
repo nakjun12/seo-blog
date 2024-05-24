@@ -27,6 +27,7 @@ const readDirectory = (directory: string): Pick<Post, "filePath">[] => {
 
 const findPostFile = (directory: string, filePath: string[]): Post | null => {
 	const fullPath = path.join(directory, ...filePath);
+	console.log("findPostFile", filePath);
 	const fileExtensions = [".md", ".mdx"];
 	for (const ext of fileExtensions) {
 		const fullFilePath = `${fullPath}${ext}`;
