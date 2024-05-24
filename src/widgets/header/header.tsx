@@ -43,7 +43,7 @@ export const Header = () => {
 						DevDive
 					</Link>
 				</div>
-				{depth === 4 && <ProgressBar />}
+				{depth === 4 && !isNav && <ProgressBar />}
 			</nav>
 		</header>
 	);
