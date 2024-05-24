@@ -46,6 +46,7 @@ export const Breadcrumb = () => {
 							href={label}
 							onClick={(e) => e.preventDefault()}
 							className="font-bold text-seo-600"
+							title={label}
 						>
 							{label}
 						</Link>
