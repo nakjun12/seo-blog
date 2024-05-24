@@ -1,5 +1,6 @@
 "use client";
 
+import { ProgressBar } from "@/src/shared/common-ui/progress-bar";
 import { useScrollDirection } from "@/src/shared/hooks/use-scroll-direction";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,6 +10,7 @@ export const Header = () => {
 	const scrollDirection = useScrollDirection();
 	const [isNav, setIsNav] = useState(true);
 	const path = usePathname();
+	const depth = path.split("/").length;
 
 	useEffect(() => {
 		if (scrollDirection === "up") {
@@ -19,9 +21,15 @@ export const Header = () => {
 	}, [scrollDirection]);
 
 	return (
-		<header className="top-0 z-50 mx-auto lg:max-w-6xl h-14  sticky">
-			{isNav && (
-				<nav className="h-full p-4 border-b bg-seo-100">
+		<header className="top-0 z-50 mx-auto lg:max-w-6xl h-14 sticky ">
+			<nav>
+				<div
+					className={`h-full p-4 border-b bg-seo-100 transition-transform duration-300 ease-in-out ${
+						isNav
+							? "transform-none opacity-100"
+							: "transform -translate-y-full opacity-0"
+					}`}
+				>
 					<Link
 						href="/"
 						title="DevDive"
@@ -34,8 +42,9 @@ export const Header = () => {
 					>
 						DevDive
 					</Link>
-				</nav>
-			)}
+				</div>
+				{depth === 4 && <ProgressBar />}
+			</nav>
 		</header>
 	);
 };
