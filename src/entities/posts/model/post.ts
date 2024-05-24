@@ -10,6 +10,7 @@ const readDirectory = (directory: string): Pick<Post, "filePath">[] => {
 		.readdirSync(directory, { withFileTypes: true })
 		.reduce<Pick<Post, "filePath">[]>((posts, file) => {
 			const fullPath = path.join(directory, file.name);
+			console.log(fullPath);
 			if (file.isDirectory()) {
 				return posts.concat(readDirectory(fullPath));
 			}

@@ -1,5 +1,6 @@
 import { getAllPosts } from "@/src/entities/posts/model/post";
-import { PostCard } from "@/src/entities/posts/ui/post-card";
+import { PostCardList } from "@/src/entities/posts/ui/post-card-list";
+import { PostTitle } from "@/src/entities/posts/ui/post-title";
 import { Breadcrumb } from "@/src/shared/common-ui/breadcrumb";
 
 interface PostProps {
@@ -17,11 +18,9 @@ export default async function Category({ params: { slug } }: PostProps) {
 	return (
 		<>
 			<Breadcrumb />
-			{allCategory.map((post) => {
-				console.log(posts);
-				console.log(allCategory);
-				return <PostCard key={post.releaseDate} post={post} />;
-			})}
+			<PostTitle title={`${slug} 카테고리`} />
+			<br />
+			<PostCardList posts={allCategory} />
 		</>
 	);
 }
