@@ -17,6 +17,7 @@ export const PostAuthorFoot = ({
 				<Image
 					fill
 					alt={`${authorName}의 아이콘`}
+					title={`${authorName}의 아이콘`}
 					crossOrigin="anonymous"
 					src={authorIcon}
 					className="rounded-full"
