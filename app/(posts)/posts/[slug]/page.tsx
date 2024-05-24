@@ -5,7 +5,7 @@ import { Breadcrumb } from "@/src/shared/common-ui/breadcrumb";
 
 interface PostProps {
 	params: {
-		slug: string[];
+		slug: string;
 	};
 }
 export default async function Category({ params: { slug } }: PostProps) {

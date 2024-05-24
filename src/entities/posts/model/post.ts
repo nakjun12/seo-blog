@@ -48,9 +48,9 @@ export const getPost = async (
 	return Object.assign(post, frontmatter);
 };
 
-export const getCategoryPosts = async (filePath: string[]) => {
-	const fullPath = path.join(postsDirectory, ...filePath);
-	console.log(fullPath);
+export const getCategoryPosts = async (filePath: string) => {
+	const fullPath = path.join(postsDirectory, filePath);
+
 	return (
 		await Promise.all(
 			readDirectory(fullPath).map((path) => getPost(path.filePath)),
