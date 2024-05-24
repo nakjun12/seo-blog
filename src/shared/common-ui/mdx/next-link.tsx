@@ -7,13 +7,21 @@ export const NextLink = (props: HTMLProps<HTMLAnchorElement>) => {
 	const isAnchorLink = href.startsWith("#");
 
 	if (isAnchorLink) {
-		return <a aria-label={props["aria-label"]} href={href} {...rest} />;
+		return (
+			<a
+				aria-label={props["aria-label"]}
+				title={href.replace("#", "")}
+				href={href}
+				{...rest}
+			/>
+		);
 	}
 	return (
 		<Link
 			href={href}
 			className={props.className}
 			target={props.target}
+			title={props.target}
 			rel={props.rel}
 		>
 			{props.children}

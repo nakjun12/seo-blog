@@ -38,11 +38,18 @@ export const Breadcrumb = () => {
 			{breadcrumbs.map(({ label, url, isLast }, index) => (
 				<Fragment key={label}>
 					{url ? (
-						<Link href={url} title={url}>
+						<Link href={url} title={label}>
 							{label}
 						</Link>
 					) : (
-						<p className="font-bold text-seo-600">{label}</p>
+						<Link
+							href={label}
+							onClick={(e) => e.preventDefault()}
+							className="font-bold text-seo-600"
+							title={label}
+						>
+							{label}
+						</Link>
 					)}
 					{!isLast && <span>/</span>}
 				</Fragment>

@@ -16,6 +16,7 @@ export function NextImage(props: HTMLProps<HTMLImageElement>) {
 				width={width}
 				height={height}
 				alt={props.alt || ""}
+				title={props.alt || ""}
 				crossOrigin="anonymous"
 				src={src}
 				placeholder="empty"
