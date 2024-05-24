@@ -16,9 +16,9 @@ const readDirectory = (directory: string): Pick<Post, "filePath">[] => {
 			if (file.isFile() && path.extname(file.name) === ".mdx") {
 				const filePath = fullPath
 					.replace(postsDirectory, "")
-					.replace(/^\\+/, "")
+					.replace(/^\/+/, "")
 					.replace(/\.mdx$/, "")
-					.split("\\");
+					.split("/");
 				posts.push({ filePath });
 			}
 			return posts;
@@ -27,12 +27,13 @@ const readDirectory = (directory: string): Pick<Post, "filePath">[] => {
 
 const findPostFile = (directory: string, filePath: string[]): Post | null => {
 	const fullPath = path.join(directory, ...filePath);
-	console.log("findPostFile", filePath);
+	console.log("findPostFile", fullPath);
 	const fileExtensions = [".md", ".mdx"];
 	for (const ext of fileExtensions) {
 		const fullFilePath = `${fullPath}${ext}`;
 		if (fs.existsSync(fullFilePath)) {
 			const content = fs.readFileSync(fullFilePath, "utf8");
+			console.log(filePath);
 			return { content, filePath };
 		}
 	}

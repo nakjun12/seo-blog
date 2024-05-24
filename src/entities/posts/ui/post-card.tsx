@@ -14,7 +14,7 @@ export const PostCard = ({ post }: PostProps) => {
 	return (
 		<li className="flex h-full flex-col gap-3 rounded-md border shadow-md transition hover:shadow-xl">
 			<Link
-				href={encodeURIComponent(post.filePath.join("/"))}
+				href={post.filePath.join("/")}
 				title={post.title}
 				className="h-full"
 			>
