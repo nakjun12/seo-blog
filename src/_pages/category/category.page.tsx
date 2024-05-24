@@ -5,16 +5,17 @@ import { Breadcrumb } from "@/src/shared/common-ui/breadcrumb";
 
 interface PostProps {
 	posts: (Post & Frontmatter)[];
+	slug: string;
 }
-export const PostsPage = ({ posts }: PostProps) => {
+export const CategoryPage = ({ posts, slug }: PostProps) => {
 	return (
 		<>
 			<Breadcrumb />
-			<PostTitle title="DevDive의 모든 글" />
+			<PostTitle title={`${slug} 카테고리`} />
 			<br />
 			<PostCardList posts={posts} />
 		</>
 	);
 };
 
-export default PostsPage;
+export default CategoryPage;

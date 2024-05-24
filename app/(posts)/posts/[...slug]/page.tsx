@@ -1,4 +1,4 @@
-import { PostsPage } from "@/src/_pages/posts/posts.page";
+import { PostPage } from "@/src/_pages/post/post.page";
 import {
 	createMetaData,
 	createPostUrl,
@@ -15,7 +15,7 @@ interface PostProps {
 export default async function Post({ params: { slug } }: PostProps) {
 	const post = await getPost(slug);
 	if (!post) return redirect("/");
-	return <PostsPage post={post} />;
+	return <PostPage post={post} />;
 }
 
 export const generateStaticParams = async () => {
