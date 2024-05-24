@@ -1,26 +1,22 @@
-import { getAllPosts } from "@/src/entities/posts/model/post";
+import { getCategoryPosts } from "@/src/entities/posts/model/post";
 import { PostCardList } from "@/src/entities/posts/ui/post-card-list";
 import { PostTitle } from "@/src/entities/posts/ui/post-title";
 import { Breadcrumb } from "@/src/shared/common-ui/breadcrumb";
 
 interface PostProps {
 	params: {
-		slug: string;
+		slug: string[];
 	};
 }
 export default async function Category({ params: { slug } }: PostProps) {
-	const posts = await getAllPosts();
-
-	const allCategory = posts.filter(
-		(post) => post.filePath[0].split("\\")[1] === slug,
-	);
+	const posts = await getCategoryPosts(slug);
 
 	return (
 		<>
 			<Breadcrumb />
 			<PostTitle title={`${slug} 카테고리`} />
 			<br />
-			<PostCardList posts={allCategory} />
+			<PostCardList posts={posts} />
 		</>
 	);
 }
