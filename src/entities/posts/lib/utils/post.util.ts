@@ -44,6 +44,45 @@ export const createMetaData = ({
 	};
 };
 
+export const createPostsMetaData = ({
+	url,
+	category,
+}: {
+	url: string;
+	category: string;
+}): Metadata => {
+	const title = `${category}`;
+	const description =
+		category === "all posts"
+			? "DevDive의 모든 게시글을 확인해보세요."
+			: `${category} 카테고리의 모든 게시글을 확인해보세요.`;
+
+	return {
+		title,
+		description,
+		alternates: {
+			canonical: url,
+		},
+		openGraph: {
+			title,
+			description,
+			url: url,
+			type: "website",
+			siteName: `${SITE_NAME}`,
+		},
+		twitter: {
+			card: "summary",
+			site: url,
+			title,
+			description,
+		},
+		robots: {
+			// todo: 나중에 포스팅시 isReleased로 치환
+			index: false,
+		},
+	};
+};
+
 export const createUrl = (filePath: string[]) => {
 	const url = `${BASE_URL}/${filePath.join("/")}`;
 	return url;
