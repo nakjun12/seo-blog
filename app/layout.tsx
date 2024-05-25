@@ -2,6 +2,7 @@ import GoogleAddon from "@/src/app/google-addon";
 import NoscriptTagManager from "@/src/app/noscript-tagmanager";
 import { Providers } from "@/src/app/provider";
 import "@/src/app/style/tailwind.css";
+import { FAVICONS } from "@/src/shared/icons/favicons";
 import { BASE_URL, SITE_NAME } from "@/src/shared/config/constant";
 import { Footer } from "@/src/widgets/footer";
 import { Header } from "@/src/widgets/header";
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
 		default: SITE_NAME,
 		template: `%s - ${SITE_NAME}`,
 	},
+	icons: FAVICONS,
 	description,
 	alternates: {
 		canonical: BASE_URL,
