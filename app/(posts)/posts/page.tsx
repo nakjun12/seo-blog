@@ -12,12 +12,6 @@ export default async function Posts() {
 	return <PostsPage posts={posts} />;
 }
 
-export const generateStaticParams = async () => {
-	return (await getAllPosts()).map((post) => ({
-		slug: post.filePath,
-	}));
-};
-
 export const generateMetadata = async (): Promise<Metadata> => {
 	const url = `${BASE_URL}/posts`;
 
