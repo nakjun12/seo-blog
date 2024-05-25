@@ -3,6 +3,7 @@ import NoscriptTagManager from "@/src/app/noscript-tagmanager";
 import { Providers } from "@/src/app/provider";
 import "@/src/app/style/tailwind.css";
 import { SITE_NAME } from "@/src/shared/config/constant";
+import { FAVICONS } from "@/src/shared/icons/favicons";
 import { Header } from "@/src/widgets/header";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
 		default: SITE_NAME,
 		template: `%s - ${SITE_NAME}`,
 	},
+	icons: FAVICONS,
 	description: "쉽게 읽는 개발 지식",
 };
 
