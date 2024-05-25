@@ -20,16 +20,6 @@ export default async function Category({ params: { slug } }: PostProps) {
 	return <CategoryPage posts={posts} slug={slug} />;
 }
 
-export const generateStaticParams = async ({
-	params,
-}: {
-	params: { slug: string };
-}) => {
-	return (await getCategoryPosts(params.slug)).map((post) => ({
-		slug: post.filePath,
-	}));
-};
-
 export const generateMetadata = async ({
 	params,
 }: {
