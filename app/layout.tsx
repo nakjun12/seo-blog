@@ -2,8 +2,12 @@ import GoogleAddon from "@/src/app/google-addon";
 import NoscriptTagManager from "@/src/app/noscript-tagmanager";
 import { Providers } from "@/src/app/provider";
 import "@/src/app/style/tailwind.css";
+import {
+	BASE_URL,
+	OPEN_GRAHPH_IMAGE_NAME,
+	SITE_NAME,
+} from "@/src/shared/config/constant";
 import { FAVICONS } from "@/src/shared/icons/favicons";
-import { BASE_URL, SITE_NAME } from "@/src/shared/config/constant";
 import { Footer } from "@/src/widgets/footer";
 import { Header } from "@/src/widgets/header";
 import type { Metadata } from "next";
@@ -34,12 +38,24 @@ export const metadata: Metadata = {
 		url: BASE_URL,
 		type: "website",
 		siteName: `${SITE_NAME}`,
+		images: {
+			url: `${BASE_URL}/${OPEN_GRAHPH_IMAGE_NAME}`,
+			alt: "description of the blog site",
+			width: 1200,
+			height: 600,
+		},
 	},
 	twitter: {
 		card: "summary",
 		site: BASE_URL,
 		title,
 		description,
+		images: {
+			url: `${BASE_URL}/${OPEN_GRAHPH_IMAGE_NAME}`,
+			alt: "description of the blog site",
+			width: 1200,
+			height: 600,
+		},
 	},
 	robots: {
 		// todo: 나중에 포스팅시 isReleased로 치환
