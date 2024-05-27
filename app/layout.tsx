@@ -50,6 +50,12 @@ export const metadata: Metadata = {
 		site: BASE_URL,
 		title,
 		description,
+		images: {
+			url: `${BASE_URL}/${OPEN_GRAHPH_IMAGE_NAME}`,
+			alt: "description of the blog site",
+			width: 1200,
+			height: 600,
+		},
 	},
 	robots: {
 		// todo: 나중에 포스팅시 isReleased로 치환
