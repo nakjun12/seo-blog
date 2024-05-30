@@ -1,5 +1,6 @@
 "use client";
 
+import { OpenMenu } from "@/src/feature/open-menu";
 import { ProgressBar } from "@/src/shared/common-ui/progress-bar";
 import { useScrollDirection } from "@/src/shared/hooks/use-scroll-direction";
 import Link from "next/link";
@@ -24,7 +25,7 @@ export const Header = () => {
 		<header className="top-0 z-50 mx-auto lg:max-w-6xl h-14 sticky ">
 			<nav>
 				<div
-					className={`h-full p-4 border-b bg-seo-100 transition-transform duration-300 ease-in-out ${
+					className={`h-full p-4 border-b bg-seo-100 flex justify-between transition-transform duration-300 ease-in-out ${
 						isNav
 							? "transform-none opacity-100"
 							: "transform -translate-y-full opacity-0"
@@ -42,6 +43,7 @@ export const Header = () => {
 					>
 						DevDive
 					</Link>
+					<OpenMenu />
 				</div>
 				{depth === 4 && !isNav && <ProgressBar />}
 			</nav>
