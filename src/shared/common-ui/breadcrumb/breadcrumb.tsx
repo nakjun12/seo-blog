@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 import { Routes } from "../../routes";
-import Head from "next/head";
+import Script from "next/script";
 
 interface BreadcrumbItem {
 	label: string;
@@ -51,13 +51,11 @@ export const Breadcrumb = () => {
 
 	return (
 		<>
-			<Head>
-				<script
-					type="application/ld+json"
-					// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
-					dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-				/>
-			</Head>
+			<Script
+				type="application/ld+json"
+				// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+			/>
 			<div
 				className="flex space-x-1 text-seo-500 text-1618 my-4"
 				aria-label="breadcrumb"
@@ -66,7 +64,11 @@ export const Breadcrumb = () => {
 					<Fragment key={url}>
 						<Link
 							href={url}
-							className={isLast ? "font-bold text-seo-600" : ""}
+							className={` ${
+								isLast
+									? "font-bold text-seo-600"
+									: "hover:underline hover:underline-offset-4"
+							}`}
 							title={label}
 							onClick={isLast ? (e) => e.preventDefault() : undefined}
 						>
