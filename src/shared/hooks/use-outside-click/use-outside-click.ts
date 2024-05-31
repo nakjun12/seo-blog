@@ -1,7 +1,7 @@
 import { type RefObject, useCallback, useEffect } from "react";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const useOutsideClick = (ref: RefObject<any>, callback: () => void) => {
+export const useOutsideClick = (ref: RefObject<any>, callback: () => void) => {
 	const runCallback = useCallback(
 		({ target }: MouseEvent | TouchEvent) => {
 			if (target === null) {
@@ -23,5 +23,3 @@ const useOutsideClick = (ref: RefObject<any>, callback: () => void) => {
 		};
 	}, [runCallback]);
 };
-
-export default useOutsideClick;
