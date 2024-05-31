@@ -10,7 +10,7 @@ interface PostProps {
 export const PostCard = ({ post }: PostProps) => {
 	dayjs.locale("ko");
 	const date = dayjs(post.releaseDate).format("YYYY.MM.DD");
-	const postLink = `/posts/${post.filePath.join("/")}`;
+	const postLink = `${post.filePath.join("/")}`;
 
 	return (
 		<li className="flex h-full flex-col gap-3 rounded-md border shadow-md transition hover:shadow-xl">
