@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
-import { Routes } from "../../routes";
+import { Routes } from "@/src/shared/routes";
 import Script from "next/script";
+import { BASE_URL } from "@/src/shared/config/constant";
 
 interface BreadcrumbItem {
 	label: string;
@@ -24,7 +25,7 @@ const generateBreadcrumbs = (): BreadcrumbItem[] => {
 
 	return [
 		{
-			label: "Home",
+			label: "home",
 			url: Routes.home.path(),
 			isLast: breadcrumbs.length === 0,
 		},
@@ -40,7 +41,7 @@ const generateBreadcrumbJsonLd = (breadcrumbs: BreadcrumbItem[]) => {
 			"@type": "ListItem",
 			position: index + 1,
 			name: breadcrumb.label,
-			item: breadcrumb.url,
+			item: `${BASE_URL}/${breadcrumb.url}`,
 		})),
 	};
 };
