@@ -10,7 +10,7 @@ export const OpenMenu = () => {
 		<button
 			type="button"
 			onClick={handleMenuClick}
-			className="flex flex-col justify-center items-center lg:hidden"
+			className="flex flex-col justify-center items-center"
 		>
 			<span
 				className={`bg-seo-600   transition-all duration-300 ease-out
