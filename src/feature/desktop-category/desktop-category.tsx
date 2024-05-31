@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-export const MobileCategory = ({ categories }: { categories: string[] }) => {
+export const DesktopCategory = ({ categories }: { categories: string[] }) => {
 	const { isMenuOpen, toggleMenu } = useToggleStore();
 	const pathname = usePathname().replace(/\//g, "");
 
@@ -30,7 +30,7 @@ export const MobileCategory = ({ categories }: { categories: string[] }) => {
 	}, [isMenuOpen, toggleMenu]);
 
 	return (
-		<menu className="absolute top-12 left-0 w-full bg-white shadow-lg z-50 lg:hidden  h-screen overflow-y-auto p-6 flex flex-col gap-6">
+		<menu className="absolute top-[48px] left-[80px] h-14 bg-white shadow-xl z-50 p-6 flex gap-6 rounded-md border border-seo-200 items-center">
 			{categories.map((category) => (
 				<Link
 					href={`/${category}`}
@@ -43,10 +43,10 @@ export const MobileCategory = ({ categories }: { categories: string[] }) => {
 							toggleMenu(false);
 						}
 					}}
-					className={`text-1818   ${
+					className={`text-1418 rounded-md p-2 ${
 						pathname === category
-							? "text-seo-600 font-medium"
-							: "text-seo-400 font-normal hover:text-seo-500"
+							? "text-seo-600 font-bold"
+							: "text-seo-500 font-normal hover:bg-seo-200 hover:font-medium"
 					}`}
 				>
 					{capitalizeFirstLetter(category)}
