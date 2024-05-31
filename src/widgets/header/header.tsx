@@ -1,14 +1,16 @@
 "use client";
 
-import { OpenMenu } from "@/src/feature/open-menu";
+import { MobileCategory, OpenMenu } from "@/src/feature";
 import { ProgressBar } from "@/src/shared/common-ui/progress-bar";
 import { useScrollDirection } from "@/src/shared/hooks/use-scroll-direction";
+import useToggleStore from "@/src/shared/stores/toggle-menu";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const Header = () => {
 	const scrollDirection = useScrollDirection();
+	const { isMenuOpen } = useToggleStore();
 	const [isNav, setIsNav] = useState(true);
 	const path = usePathname();
 	const depth = path.split("/").length;
@@ -25,7 +27,7 @@ export const Header = () => {
 		<header className="top-0 z-50 mx-auto lg:max-w-6xl h-[50px] sticky">
 			<nav>
 				<div
-					className={`h-full p-2.5 border-b bg-seo-100 flex justify-between transition-transform duration-300 ease-in-out ${
+					className={`h-full p-2.5 border-b bg-seo-100 flex justify-between lg:justify-start lg:gap-2 transition-transform duration-300 ease-in-out ${
 						isNav
 							? "transform-none opacity-100"
 							: "transform -translate-y-full opacity-0"
@@ -44,6 +46,8 @@ export const Header = () => {
 						DevDive
 					</Link>
 					<OpenMenu />
+					<div className="hidden lg:block">카테고리</div>
+					{isMenuOpen && <MobileCategory />}
 				</div>
 				{depth === 3 && !isNav && <ProgressBar />}
 			</nav>
