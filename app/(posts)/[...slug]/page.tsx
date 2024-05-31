@@ -1,7 +1,7 @@
 import { PostPage } from "@/src/_pages/post/post.page";
 import {
 	createMetaData,
-	createPostUrl,
+	createUrl,
 } from "@/src/entities/posts/lib/utils/post.util";
 import { getAllPosts, getPost } from "@/src/entities/posts/model/post";
 import { redirect } from "next/navigation";
@@ -30,7 +30,7 @@ export const generateMetadata = async ({
 	params: { slug: string[] };
 }): Promise<Metadata> => {
 	const filePath = params.slug;
-	const url = createPostUrl(filePath);
+	const url = createUrl(filePath);
 	const post = await getPost(filePath);
 	if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
 	const metaData = createMetaData({ url, post });
