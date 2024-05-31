@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import useToggleStore from "@/src/shared/stores/toggle-menu";
 
 export const OpenMenu = () => {
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const { isMenuOpen, toggleMenu } = useToggleStore();
 	const handleMenuClick = () => {
-		setIsMenuOpen(!isMenuOpen);
+		toggleMenu(!isMenuOpen);
 	};
 	return (
 		<button
