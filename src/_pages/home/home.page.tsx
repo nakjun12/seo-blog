@@ -1,7 +1,13 @@
+import type { Frontmatter, Post } from "@/src/entities/posts/model/post.type";
+import { PostCardList } from "@/src/entities/posts/ui/post-card-list";
 import { PostTitle } from "@/src/entities/posts/ui/post-title";
 import Link from "next/link";
 
-const HomePage = () => {
+interface HomeProps {
+	posts: (Post & Frontmatter)[];
+}
+
+const HomePage = ({ posts }: HomeProps) => {
 	return (
 		<main className="px-4 mx-auto lg:max-w-6xl">
 			<PostTitle title="🚧공사 중🚧" />
@@ -23,6 +29,8 @@ const HomePage = () => {
 					next
 				</Link>
 			</div>
+			<br />
+			<PostCardList posts={posts} />
 		</main>
 	);
 };
