@@ -22,10 +22,10 @@ export const Header = () => {
 	}, [scrollDirection]);
 
 	return (
-		<header className="top-0 z-50 mx-auto lg:max-w-6xl h-14 sticky ">
+		<header className="top-0 z-50 mx-auto lg:max-w-6xl h-[50px] sticky">
 			<nav>
 				<div
-					className={`h-full p-4 border-b bg-seo-100 flex justify-between transition-transform duration-300 ease-in-out ${
+					className={`h-full p-2.5 border-b bg-seo-100 flex justify-between transition-transform duration-300 ease-in-out ${
 						isNav
 							? "transform-none opacity-100"
 							: "transform -translate-y-full opacity-0"
