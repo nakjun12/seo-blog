@@ -75,3 +75,11 @@ export const getAllPosts = async () => {
 		)
 	).filter((post) => post !== null) as Array<Post & Frontmatter>;
 };
+
+export const getCategories = (): string[] => {
+	const directories = fs.readdirSync(postsDirectory, { withFileTypes: true });
+	const categories = directories
+		.filter((dirent) => dirent.isDirectory())
+		.map((dirent) => dirent.name);
+	return categories;
+};

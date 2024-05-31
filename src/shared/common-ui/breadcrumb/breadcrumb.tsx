@@ -25,7 +25,7 @@ const generateBreadcrumbs = (): BreadcrumbItem[] => {
 
 	return [
 		{
-			label: "home",
+			label: "Home",
 			url: Routes.home.path(),
 			isLast: breadcrumbs.length === 0,
 		},

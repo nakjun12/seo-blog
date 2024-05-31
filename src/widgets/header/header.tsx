@@ -8,7 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export const Header = () => {
+export const Header = ({ categories }: { categories: string[] }) => {
 	const scrollDirection = useScrollDirection();
 	const { isMenuOpen } = useToggleStore();
 	const [isNav, setIsNav] = useState(true);
@@ -47,7 +47,7 @@ export const Header = () => {
 					</Link>
 					<OpenMenu />
 					<div className="hidden lg:block">카테고리</div>
-					{isMenuOpen && <MobileCategory />}
+					{isMenuOpen && <MobileCategory categories={categories} />}
 				</div>
 				{depth === 3 && !isNav && <ProgressBar />}
 			</nav>

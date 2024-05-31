@@ -2,6 +2,7 @@ import GoogleAddon from "@/src/app/google-addon";
 import NoscriptTagManager from "@/src/app/noscript-tagmanager";
 import { Providers } from "@/src/app/provider";
 import "@/src/app/style/tailwind.css";
+import { getCategories } from "@/src/entities/posts/model/post";
 import {
 	BASE_URL,
 	OPEN_GRAHPH_IMAGE_NAME,
@@ -68,12 +69,14 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const categories = getCategories();
+
 	return (
 		<html lang="ko">
 			<GoogleAddon />
 			<Providers>
 				<body className={`${pretendard.variable} font-pretendard`}>
-					<Header />
+					<Header categories={categories} />
 					{children}
 					<Footer />
 					<NoscriptTagManager />
