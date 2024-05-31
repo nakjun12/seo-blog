@@ -4,30 +4,10 @@ import { capitalizeFirstLetter } from "@/src/entities/posts/lib/utils/language.u
 import useToggleStore from "@/src/shared/stores/toggle-menu";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 export const DesktopCategory = ({ categories }: { categories: string[] }) => {
-	const { isMenuOpen, toggleMenu } = useToggleStore();
+	const { toggleMenu } = useToggleStore();
 	const pathname = usePathname().replace(/\//g, "");
-
-	useEffect(() => {
-		const handleResize = () => {
-			toggleMenu(false);
-		};
-
-		window.addEventListener("resize", handleResize);
-
-		if (isMenuOpen) {
-			document.body.style.overflow = "hidden";
-		} else {
-			document.body.style.overflow = "";
-		}
-
-		return () => {
-			window.removeEventListener("resize", handleResize);
-			document.body.style.overflow = "";
-		};
-	}, [isMenuOpen, toggleMenu]);
 
 	return (
 		<menu className="absolute top-[48px] left-[80px] h-14 bg-white shadow-xl z-50 p-6 flex gap-6 rounded-md border border-seo-200 items-center">
