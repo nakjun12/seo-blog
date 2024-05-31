@@ -1,7 +1,7 @@
 import CategoryPage from "@/src/_pages/category/category.page";
 import {
-	createPostUrl,
 	createPostsMetaData,
+	createUrl,
 } from "@/src/entities/posts/lib/utils/post.util";
 import { getCategoryPosts } from "@/src/entities/posts/model/post";
 import { redirect } from "next/navigation";
@@ -26,7 +26,7 @@ export const generateMetadata = async ({
 	params: { slug: string };
 }): Promise<Metadata> => {
 	const filePath = [params.slug];
-	const url = createPostUrl(filePath);
+	const url = createUrl(filePath);
 	const metaData = createPostsMetaData({ url, category: params.slug });
 	return metaData;
 };

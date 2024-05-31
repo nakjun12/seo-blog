@@ -87,8 +87,3 @@ export const createUrl = (filePath: string[]) => {
 	const url = `${BASE_URL}/${filePath.join("/")}`;
 	return url;
 };
-
-export const createPostUrl = (filePath: string[]) => {
-	const url = `${BASE_URL}/posts/${filePath.join("/")}`;
-	return url;
-};
