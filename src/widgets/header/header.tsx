@@ -1,6 +1,6 @@
 "use client";
 
-import { MobileCategory, OpenMenu } from "@/src/feature";
+import { MobileCategory, OpenCategory, OpenMenu } from "@/src/feature";
 import { ProgressBar } from "@/src/shared/common-ui/progress-bar";
 import { useScrollDirection } from "@/src/shared/hooks/use-scroll-direction";
 import useToggleStore from "@/src/shared/stores/toggle-menu";
@@ -27,7 +27,7 @@ export const Header = ({ categories }: { categories: string[] }) => {
 		<header className="top-0 z-50 mx-auto lg:max-w-6xl h-[50px] sticky">
 			<nav>
 				<div
-					className={`h-full p-2.5 border-b bg-seo-100 flex justify-between lg:justify-start lg:gap-2 transition-transform duration-300 ease-in-out ${
+					className={`h-full p-2 border-b bg-seo-100 flex justify-between items-center lg:justify-start lg:gap-3 transition-transform duration-300 ease-in-out ${
 						isNav
 							? "transform-none opacity-100"
 							: "transform -translate-y-full opacity-0"
@@ -46,7 +46,7 @@ export const Header = ({ categories }: { categories: string[] }) => {
 						DevDive
 					</Link>
 					<OpenMenu />
-					<div className="hidden lg:block">카테고리</div>
+					<OpenCategory />
 					{isMenuOpen && <MobileCategory categories={categories} />}
 				</div>
 				{depth === 3 && !isNav && <ProgressBar />}
