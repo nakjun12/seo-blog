@@ -45,7 +45,7 @@ export const Header = () => {
 					</Link>
 					<OpenMenu />
 				</div>
-				{depth === 4 && !isNav && <ProgressBar />}
+				{depth === 3 && !isNav && <ProgressBar />}
 			</nav>
 		</header>
 	);
