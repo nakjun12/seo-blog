@@ -41,7 +41,7 @@ const generateBreadcrumbJsonLd = (breadcrumbs: BreadcrumbItem[]) => {
 			"@type": "ListItem",
 			position: index + 1,
 			name: breadcrumb.label,
-			item: `${BASE_URL}/${breadcrumb.url}`,
+			item: BASE_URL + breadcrumb.url,
 		})),
 	};
 };
