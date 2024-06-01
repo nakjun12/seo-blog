@@ -54,7 +54,7 @@ export const Header = ({ categories }: { categories: string[] }) => {
 					<div ref={catgoryRef}>
 						<OpenCategory categories={categories} />
 						<OpenMenu />
-						{isMenuOpen && <MobileCategory categories={categories} />}
+						<MobileCategory categories={categories} />
 					</div>
 				</div>
 				{depth === 3 && !isNav && <ProgressBar />}
