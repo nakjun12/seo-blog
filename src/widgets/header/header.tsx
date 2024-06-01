@@ -2,36 +2,32 @@
 
 import { MobileCategory, OpenCategory, OpenMenu } from "@/src/feature";
 import { ProgressBar } from "@/src/shared/common-ui/progress-bar";
+import { useOutsideClick } from "@/src/shared/hooks/use-outside-click";
 import { useScrollDirection } from "@/src/shared/hooks/use-scroll-direction";
 import useToggleStore from "@/src/shared/stores/toggle-menu";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const Header = ({ categories }: { categories: string[] }) => {
 	const scrollDirection = useScrollDirection();
-	const { isMenuOpen } = useToggleStore();
+	const { isMenuOpen, toggleMenu } = useToggleStore();
 	const [isNav, setIsNav] = useState(true);
-	const [isDesktop, setIsDesktop] = useState(
-		typeof window !== "undefined" && 1064 <= window.innerWidth,
-	);
 	const path = usePathname();
 	const depth = path.split("/").length;
+	const catgoryRef = useRef(null);
+
+	useOutsideClick(catgoryRef, () => toggleMenu(false));
 
 	useEffect(() => {
-		const handleResize = () => {
-			setIsDesktop(1064 <= window.innerWidth);
-		};
-
 		if (scrollDirection === "up") {
 			setIsNav(true);
+			toggleMenu(false);
 		} else {
 			setIsNav(false);
+			toggleMenu(false);
 		}
-
-		window.addEventListener("resize", handleResize);
-		return () => window.removeEventListener("resize", handleResize);
-	}, [scrollDirection]);
+	}, [scrollDirection, toggleMenu]);
 
 	return (
 		<header className="top-0 z-50 mx-auto lg:max-w-6xl h-[50px] sticky min-h-[]">
@@ -55,14 +51,11 @@ export const Header = ({ categories }: { categories: string[] }) => {
 					>
 						DevDive
 					</Link>
-					{isDesktop ? (
+					<div ref={catgoryRef}>
 						<OpenCategory categories={categories} />
-					) : (
-						<>
-							<OpenMenu />
-							{isMenuOpen && <MobileCategory categories={categories} />}
-						</>
-					)}
+						<OpenMenu />
+						<MobileCategory categories={categories} />
+					</div>
 				</div>
 				{depth === 3 && !isNav && <ProgressBar />}
 			</nav>

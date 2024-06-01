@@ -1,22 +1,17 @@
 "use client";
 
-import { useOutsideClick } from "@/src/shared/hooks/use-outside-click";
 import useToggleStore from "@/src/shared/stores/toggle-menu";
-import { useRef } from "react";
 import { DesktopCategory } from "../desktop-category";
 
 export const OpenCategory = ({ categories }: { categories: string[] }) => {
 	const { isMenuOpen, toggleMenu } = useToggleStore();
-	const catgoryRef = useRef(null);
 
 	const handleMenuClick = () => {
 		toggleMenu(!isMenuOpen);
 	};
 
-	useOutsideClick(catgoryRef, () => toggleMenu(false));
-
 	return (
-		<div ref={catgoryRef}>
+		<div className="hidden lg:block">
 			<button
 				type="button"
 				onClick={handleMenuClick}
@@ -46,7 +41,7 @@ export const OpenCategory = ({ categories }: { categories: string[] }) => {
 					/>
 				</div>
 			</button>
-			{isMenuOpen && <DesktopCategory categories={categories} />}
+			<DesktopCategory categories={categories} />
 		</div>
 	);
 };

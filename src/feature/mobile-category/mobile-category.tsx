@@ -30,7 +30,11 @@ export const MobileCategory = ({ categories }: { categories: string[] }) => {
 	}, [isMenuOpen, toggleMenu]);
 
 	return (
-		<menu className="absolute top-12 left-0 w-full bg-white shadow-lg z-50 lg:hidden  h-screen overflow-y-auto p-6 flex flex-col gap-6">
+		<menu
+			className={`absolute top-12 left-0 w-full bg-white shadow-lg z-50 lg:hidden  h-screen overflow-y-auto p-6 flex flex-col gap-6 ${
+				isMenuOpen ? "" : "hidden"
+			}`}
+		>
 			{categories.map((category) => (
 				<Link
 					href={`/${category}`}

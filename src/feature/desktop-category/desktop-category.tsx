@@ -6,11 +6,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export const DesktopCategory = ({ categories }: { categories: string[] }) => {
-	const { toggleMenu } = useToggleStore();
+	const { isMenuOpen, toggleMenu } = useToggleStore();
 	const pathname = usePathname().replace(/\//g, "");
 
 	return (
-		<menu className="absolute top-[48px] left-[80px] h-14 bg-white shadow-xl z-50 p-6 flex gap-6 rounded-md border border-seo-200 items-center">
+		<menu
+			className={`absolute top-[48px] left-[80px] h-14 bg-white shadow-xl z-50 p-6 flex gap-6 rounded-md border border-seo-200 items-center ${
+				isMenuOpen ? "" : "hidden"
+			}`}
+		>
 			{categories.map((category) => (
 				<Link
 					href={`/${category}`}
