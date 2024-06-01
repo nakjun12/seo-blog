@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 export const Header = ({ categories }: { categories: string[] }) => {
 	const scrollDirection = useScrollDirection();
-	const { isMenuOpen } = useToggleStore();
+	const { isMenuOpen, toggleMenu } = useToggleStore();
 	const [isNav, setIsNav] = useState(true);
 	const [isDesktop, setIsDesktop] = useState(
 		typeof window !== "undefined" && 1064 <= window.innerWidth,
@@ -25,13 +25,15 @@ export const Header = ({ categories }: { categories: string[] }) => {
 
 		if (scrollDirection === "up") {
 			setIsNav(true);
+			toggleMenu(false);
 		} else {
 			setIsNav(false);
+			toggleMenu(false);
 		}
 
 		window.addEventListener("resize", handleResize);
 		return () => window.removeEventListener("resize", handleResize);
-	}, [scrollDirection]);
+	}, [scrollDirection, toggleMenu]);
 
 	return (
 		<header className="top-0 z-50 mx-auto lg:max-w-6xl h-[50px] sticky min-h-[]">
