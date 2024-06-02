@@ -75,10 +75,7 @@ export const Breadcrumb = ({ postTitle }: BreadcrumbProps) => {
 				{breadcrumbs.map(({ label, url, isLast }) => (
 					<Fragment key={url}>
 						{isLast ? (
-							<p
-								className="font-semibold text-seo-600 line-clamp-1"
-								title={label}
-							>
+							<p className="font-semibold text-seo-600 truncate" title={label}>
 								{label}
 							</p>
 						) : (
