@@ -12,7 +12,7 @@ interface PostProps {
 export const PostPage = ({ post }: PostProps) => {
 	return (
 		<>
-			<Breadcrumb />
+			<Breadcrumb postTitle={post.title} />
 			<PostTitle title={post.title} />
 			<PostAuthorHead
 				authorName={post.authorName}
