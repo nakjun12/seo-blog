@@ -13,14 +13,25 @@ interface BreadcrumbItem {
 	isLast: boolean;
 }
 
-const generateBreadcrumbs = (): BreadcrumbItem[] => {
+interface BreadcrumbProps {
+	postTitle?: string;
+}
+
+const generateBreadcrumbs = (
+	postTitle: string | undefined,
+): BreadcrumbItem[] => {
 	const pathname = usePathname();
 	const segments = pathname?.split("/").filter((segment) => segment !== "");
 
 	const breadcrumbs =
 		segments?.map((segment, index) => {
 			const url = `/${segments.slice(0, index + 1).join("/")}`;
-			return { label: segment, url, isLast: index === segments.length - 1 };
+			const isLast = index === segments.length - 1;
+			return {
+				label: postTitle && isLast ? postTitle : segment,
+				url,
+				isLast: isLast,
+			};
 		}) || [];
 
 	return [
@@ -46,8 +57,8 @@ const generateBreadcrumbJsonLd = (breadcrumbs: BreadcrumbItem[]) => {
 	};
 };
 
-export const Breadcrumb = () => {
-	const breadcrumbs: BreadcrumbItem[] = generateBreadcrumbs();
+export const Breadcrumb = ({ postTitle }: BreadcrumbProps) => {
+	const breadcrumbs: BreadcrumbItem[] = generateBreadcrumbs(postTitle);
 	const breadcrumbJsonLd = generateBreadcrumbJsonLd(breadcrumbs);
 
 	return (
@@ -63,18 +74,19 @@ export const Breadcrumb = () => {
 			>
 				{breadcrumbs.map(({ label, url, isLast }) => (
 					<Fragment key={url}>
-						<Link
-							href={url}
-							className={` ${
-								isLast
-									? "font-bold text-seo-600"
-									: "hover:underline hover:underline-offset-4"
-							}`}
-							title={label}
-							onClick={isLast ? (e) => e.preventDefault() : undefined}
-						>
-							{label}
-						</Link>
+						{isLast ? (
+							<p className="font-semibold text-seo-600 truncate" title={label}>
+								{label}
+							</p>
+						) : (
+							<Link
+								href={url}
+								className="hover:underline hover:underline-offset-4"
+								title={label}
+							>
+								{label}
+							</Link>
+						)}
 						{!isLast && <span>/</span>}
 					</Fragment>
 				))}

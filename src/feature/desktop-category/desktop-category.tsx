@@ -29,7 +29,7 @@ export const DesktopCategory = ({ categories }: { categories: string[] }) => {
 					}}
 					className={`text-1418 rounded-md p-2 ${
 						pathname === category
-							? "text-seo-600 font-bold"
+							? "text-seo-600 font-semibold"
 							: "text-seo-500 font-normal hover:bg-seo-200 hover:font-medium"
 					}`}
 				>
