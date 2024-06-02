@@ -17,7 +17,7 @@
 			"",
       "$0"
 		],
-		"scope": "markdown"
+		"scope": "mdx"
 	},
 	"Current DateTime": {
     "prefix": ["current_date_time", "cdt"],
