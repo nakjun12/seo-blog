@@ -3,6 +3,7 @@ import {
 	createMetaData,
 	createUrl,
 } from "@/src/entities/posts/lib/utils/post.util";
+import { parseToc } from "@/src/entities/posts/lib/utils/toc.util";
 import { getAllPosts, getPost } from "@/src/entities/posts/model/post";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next/types";
@@ -15,6 +16,8 @@ interface PostProps {
 export default async function Post({ params: { slug } }: PostProps) {
 	const post = await getPost(slug);
 	if (!post) return redirect("/");
+	const toc = parseToc(post.content);
+	console.log(toc);
 	return <PostPage post={post} />;
 }
 
