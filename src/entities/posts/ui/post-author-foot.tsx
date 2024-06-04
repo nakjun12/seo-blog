@@ -12,7 +12,7 @@ export const PostAuthorFoot = ({
 	authorIntro,
 }: PostAuthorFootProps) => {
 	return (
-		<div className="flex flex-col gap-3 my-1 sm:flex-row sm:items-center sm:gap-4">
+		<div className="flex flex-col gap-3 my-4 sm:flex-row sm:items-center sm:gap-4">
 			<div className="relative size-20 sm:size-32">
 				<Image
 					fill
