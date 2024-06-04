@@ -17,8 +17,7 @@ export default async function Post({ params: { slug } }: PostProps) {
 	const post = await getPost(slug);
 	if (!post) return redirect("/");
 	const toc = parseToc(post.content);
-	console.log(toc);
-	return <PostPage post={post} />;
+	return <PostPage post={post} toc={toc} />;
 }
 
 export const generateStaticParams = async () => {

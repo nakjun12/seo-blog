@@ -1,10 +1,10 @@
-export interface HeadingItem {
+export interface TocItem {
 	text: string;
 	link: string;
 	indent: number;
 }
 
-export const parseToc = (content: string): HeadingItem[] => {
+export const parseToc = (content: string): TocItem[] => {
 	// 헤더 태그를 찾기위한 정규식 (H2와 H3로 시작하는 문자열 검색)
 	const regex = /^(##|###) (.*)$/gm;
 

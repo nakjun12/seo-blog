@@ -8,7 +8,7 @@ interface HomeProps {
 
 const HomePage = ({ posts }: HomeProps) => {
 	return (
-		<main className="px-4 mx-auto lg:max-w-6xl">
+		<main className="px-4 mx-auto lg:max-w-screen-xl">
 			<br />
 			<PostTitle title="All Posts" />
 			<br />
