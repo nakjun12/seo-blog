@@ -22,7 +22,7 @@ export const PostPage = ({ post, toc }: PostProps) => {
 				authorIcon={post.authorIcon}
 				writeDate={post.writeDate}
 			/>
-			<div>
+			<div className="relative">
 				<Toc toc={toc} />
 				<MdxRemote source={post.content} />
 			</div>

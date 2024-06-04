@@ -27,7 +27,7 @@ export const parseToc = (content: string): TocItem[] => {
 			return {
 				text, // 헤더 텍스트
 				link: `#${link}`, // URL 형식의 링크
-				indent: (heading.match(/#/g)?.length || 2) - 1, // 헤더의 들여쓰기 수준
+				indent: (heading.match(/#/g)?.length || 2) - 2, // 헤더의 들여쓰기 수준
 			};
 		}) || []
 	);
