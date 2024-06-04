@@ -21,13 +21,13 @@ export const parseToc = (content: string): HeadingItem[] => {
 			// 텍스트를 소문자로 변환하고, URL에 사용할 수 있는 형식으로 변환
 			const link = text
 				.toLowerCase()
-				.replace(/[^\w\s-]/g, "") // 단어 문자, 공백, 하이픈을 제외한 모든 문자를 제거
+				.replace(/[^\p{L}\p{N}\s-]/gu, "") // 단어 문자(유니코드), 공백, 하이픈을 제외한 모든 문자를 제거
 				.replace(/\s+/g, "-"); // 하나 이상의 연속된 공백을 하이픈으로 대체
 
 			return {
 				text, // 헤더 텍스트
 				link: `#${link}`, // URL 형식의 링크
-				indent: (heading.match(/#/g)?.length || 2) - 2, // 헤더의 들여쓰기 수준
+				indent: (heading.match(/#/g)?.length || 2) - 1, // 헤더의 들여쓰기 수준
 			};
 		}) || []
 	);
