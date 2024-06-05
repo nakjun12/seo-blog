@@ -36,16 +36,6 @@ export const Toc = ({ toc }: TocProps) => {
 		setTocTops(tocTops);
 	}, [toc]);
 
-	const onScroll = useCallback(() => {
-		const scrollTop = getScrollTop();
-		if (!tocTops) return;
-
-		const currentHeading = [...tocTops].reverse().find((tocTop) => {
-			return scrollTop >= tocTop.top - 4;
-		});
-		setActiveId(currentHeading ? currentHeading.id : null);
-	}, [tocTops]);
-
 	useEffect(() => {
 		updateTocPositions();
 		let preScrollHeight = document.body.scrollHeight;
@@ -61,15 +51,33 @@ export const Toc = ({ toc }: TocProps) => {
 		};
 
 		timeoutId = setTimeout(checkScrollHeight, 250);
-
-		window.addEventListener("scroll", onScroll);
 		return () => {
 			if (timeoutId) {
 				clearTimeout(timeoutId);
-				window.removeEventListener("scroll", onScroll);
 			}
 		};
-	}, [updateTocPositions, onScroll]);
+	}, [updateTocPositions]);
+
+	const onScroll = useCallback(() => {
+		const scrollTop = getScrollTop();
+		if (!tocTops) return;
+
+		const currentHeading = [...tocTops].reverse().find((tocTop) => {
+			return scrollTop >= tocTop.top - 4;
+		});
+		setActiveId(currentHeading ? currentHeading.id : null);
+	}, [tocTops]);
+
+	useEffect(() => {
+		window.addEventListener("scroll", onScroll);
+		return () => {
+			window.removeEventListener("scroll", onScroll);
+		};
+	}, [onScroll]);
+
+	useEffect(() => {
+		onScroll();
+	}, [onScroll]);
 
 	if (!toc || !tocTops) return null;
 
