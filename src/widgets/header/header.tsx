@@ -30,7 +30,7 @@ export const Header = ({ categories }: { categories: string[] }) => {
 	}, [scrollDirection, toggleMenu]);
 
 	return (
-		<header className="top-0 z-50 mx-auto lg:max-w-6xl h-[50px] sticky min-h-[]">
+		<header className="top-0 z-50 mx-auto lg:max-w-screen-xl h-[50px] sticky min-h-[]">
 			<nav>
 				<div
 					className={`h-full p-2 border-b bg-seo-100 flex justify-between items-center lg:justify-start lg:gap-3 transition-transform duration-300 ease-in-out ${
