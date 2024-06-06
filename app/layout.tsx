@@ -13,6 +13,7 @@ import { Footer } from "@/src/widgets/footer";
 import { Header } from "@/src/widgets/header";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import AutoRefresh from "./auto-refresh";
 
 const pretendard = localFont({
 	src: "../public/font/PretendardVariable.woff2",
@@ -72,16 +73,18 @@ export default function RootLayout({
 	const categories = getCategories();
 
 	return (
-		<html lang="ko">
-			<GoogleAddon />
-			<Providers>
-				<body className={`${pretendard.variable} font-pretendard`}>
-					<Header categories={categories} />
-					{children}
-					<Footer />
-					<NoscriptTagManager />
-				</body>
-			</Providers>
-		</html>
+		<AutoRefresh>
+			<html lang="ko">
+				<GoogleAddon />
+				<Providers>
+					<body className={`${pretendard.variable} font-pretendard`}>
+						<Header categories={categories} />
+						{children}
+						<Footer />
+						<NoscriptTagManager />
+					</body>
+				</Providers>
+			</html>
+		</AutoRefresh>
 	);
 }
