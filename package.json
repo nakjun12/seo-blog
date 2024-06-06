@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "next-dev": "next dev",
+    "watch-content": "node ./watcher.cjs",
+    "dev": "run-p next-dev watch-content",
     "build": "next build",
     "start": "next start",
     "format": "npx @biomejs/biome format --write ./app ./src",
@@ -30,8 +32,10 @@
     "@types/qs": "^6.9.15",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "chokidar": "^3.6.0",
     "lefthook": "^1.6.10",
     "next-mdx-remote": "^4.4.1",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-pretty-code": "^0.13.1",
@@ -41,6 +45,7 @@
     "shiki": "^1.4.0",
     "shikiji": "^0.10.2",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "ws": "^8.17.0"
   }
 }

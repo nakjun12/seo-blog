@@ -20,5 +20,8 @@
 	},
 	"[mdx]": {
 		"editor.formatOnSave": false
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
 	}
 }
