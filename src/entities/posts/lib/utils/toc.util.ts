@@ -21,8 +21,8 @@ export const parseToc = (content: string): TocItem[] => {
 			// 텍스트를 소문자로 변환하고, URL에 사용할 수 있는 형식으로 변환
 			const id = text
 				.toLowerCase()
-				.replace(/[^\p{L}\p{N}\s-]/gu, "") // 단어 문자(유니코드), 공백, 하이픈을 제외한 모든 문자를 제거
-				.replace(/\s+/g, "-"); // 하나 이상의 연속된 공백을 하이픈으로 대체
+				.replace(/\s+/g, "-") // 하나 이상의 연속된 공백을 하이픈으로 대체
+				.replace(/[^\p{L}\p{N}\s-]/gu, ""); // 단어 문자(유니코드), 공백, 하이픈을 제외한 모든 문자를 제거
 
 			return {
 				text, // 헤더 텍스트
