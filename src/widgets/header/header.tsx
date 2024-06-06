@@ -11,23 +11,24 @@ import { useEffect, useRef, useState } from "react";
 
 export const Header = ({ categories }: { categories: string[] }) => {
 	const scrollDirection = useScrollDirection();
-	const { isMenuOpen, toggleMenu } = useToggleStore();
+	const { closeMenue } = useToggleStore();
 	const [isNav, setIsNav] = useState(true);
 	const path = usePathname();
 	const depth = path.split("/").length;
 	const catgoryRef = useRef(null);
 
-	useOutsideClick(catgoryRef, () => toggleMenu(false));
+	useOutsideClick(catgoryRef, () => {
+		closeMenue();
+	});
 
 	useEffect(() => {
 		if (scrollDirection === "up") {
 			setIsNav(true);
-			toggleMenu(false);
 		} else {
 			setIsNav(false);
-			toggleMenu(false);
 		}
-	}, [scrollDirection, toggleMenu]);
+		closeMenue();
+	}, [scrollDirection, closeMenue]);
 
 	return (
 		<header className="top-0 z-50 mx-auto lg:max-w-screen-xl h-[50px] sticky min-h-[]">

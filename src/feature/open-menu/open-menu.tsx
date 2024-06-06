@@ -2,9 +2,9 @@
 import useToggleStore from "@/src/shared/stores/toggle-menu";
 
 export const OpenMenu = () => {
-	const { isMenuOpen, toggleMenu } = useToggleStore();
+	const { isMobileMenuOpen, toggleMobileMenu } = useToggleStore();
 	const handleMenuClick = () => {
-		toggleMenu(!isMenuOpen);
+		toggleMobileMenu(!isMobileMenuOpen);
 	};
 	return (
 		<button
@@ -15,7 +15,7 @@ export const OpenMenu = () => {
 			<span
 				className={`bg-seo-600   transition-all duration-300 ease-out
                     h-0.5 w-6 rounded-md ${
-											isMenuOpen
+											isMobileMenuOpen
 												? "rotate-45 translate-y-1"
 												: "-translate-y-0.5"
 										}`}
@@ -23,13 +23,13 @@ export const OpenMenu = () => {
 			<span
 				className={`bg-seo-600   transition-all duration-300 ease-out
                     h-0.5 w-6 rounded-md my-0.5 ${
-											isMenuOpen ? "opacity-0" : "opacity-100"
+											isMobileMenuOpen ? "opacity-0" : "opacity-100"
 										}`}
 			/>
 			<span
 				className={`bg-seo-600   transition-all duration-300 ease-out
                     h-0.5 w-6 rounded-md ${
-											isMenuOpen
+											isMobileMenuOpen
 												? "-rotate-45 -translate-y-1"
 												: "translate-y-0.5"
 										}`}

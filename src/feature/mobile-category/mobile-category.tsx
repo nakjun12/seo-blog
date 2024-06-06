@@ -7,17 +7,17 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 export const MobileCategory = ({ categories }: { categories: string[] }) => {
-	const { isMenuOpen, toggleMenu } = useToggleStore();
+	const { isMobileMenuOpen, toggleMobileMenu } = useToggleStore();
 	const pathname = usePathname().replace(/\//g, "");
 
 	useEffect(() => {
 		const handleResize = () => {
-			toggleMenu(false);
+			toggleMobileMenu(false);
 		};
 
 		window.addEventListener("resize", handleResize);
 
-		if (isMenuOpen) {
+		if (isMobileMenuOpen) {
 			document.body.style.overflow = "hidden";
 		} else {
 			document.body.style.overflow = "";
@@ -27,12 +27,12 @@ export const MobileCategory = ({ categories }: { categories: string[] }) => {
 			window.removeEventListener("resize", handleResize);
 			document.body.style.overflow = "";
 		};
-	}, [isMenuOpen, toggleMenu]);
+	}, [isMobileMenuOpen, toggleMobileMenu]);
 
 	return (
 		<menu
-			className={`absolute top-12 left-0 w-full bg-white shadow-lg z-50 lg:hidden  h-screen overflow-y-auto p-6 flex flex-col gap-6 ${
-				isMenuOpen ? "" : "hidden"
+			className={`absolute top-12 left-0 inset-0 bg-white shadow-lg z-50 lg:hidden h-screen overflow-y-auto p-6 flex flex-col gap-6 ${
+				isMobileMenuOpen ? "" : "hidden"
 			}`}
 		>
 			{categories.map((category) => (
@@ -44,7 +44,7 @@ export const MobileCategory = ({ categories }: { categories: string[] }) => {
 						if (pathname === category) {
 							e.preventDefault();
 						} else {
-							toggleMenu(false);
+							toggleMobileMenu(false);
 						}
 					}}
 					className={`text-1818   ${

@@ -1,13 +1,19 @@
 import { create } from "zustand";
 
 interface ToggleState {
-	isMenuOpen: boolean;
-	toggleMenu: (flag: boolean) => void;
+	isMobileMenuOpen: boolean;
+	isDesktopMenuOpen: boolean;
+	toggleMobileMenu: (flag: boolean) => void;
+	toggleDesktopMenu: (flag: boolean) => void;
+	closeMenue: () => void;
 }
 
 const useToggleStore = create<ToggleState>((set) => ({
-	isMenuOpen: false,
-	toggleMenu: (flag) => set({ isMenuOpen: flag }),
+	isMobileMenuOpen: false,
+	isDesktopMenuOpen: false,
+	toggleMobileMenu: (flag) => set({ isMobileMenuOpen: flag }),
+	toggleDesktopMenu: (flag) => set({ isDesktopMenuOpen: flag }),
+	closeMenue: () => set({ isMobileMenuOpen: false, isDesktopMenuOpen: false }),
 }));
 
 export default useToggleStore;
