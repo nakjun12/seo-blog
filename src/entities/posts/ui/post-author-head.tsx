@@ -5,16 +5,16 @@ import "dayjs/locale/ko";
 interface PostAuthorHeadProps {
 	authorName: string;
 	authorIcon: string;
-	writeDate: string;
+	releaseDate: string;
 }
 
 export const PostAuthorHead = ({
 	authorName,
 	authorIcon,
-	writeDate,
+	releaseDate,
 }: PostAuthorHeadProps) => {
 	dayjs.locale("ko");
-	const date = dayjs(writeDate);
+	const date = dayjs(releaseDate);
 
 	return (
 		<div className="flex h-10 gap-2.5 my-1">
