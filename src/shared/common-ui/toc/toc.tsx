@@ -63,7 +63,7 @@ export const Toc = ({ toc }: TocProps) => {
 		if (!tocTops) return;
 
 		const currentHeading = [...tocTops].reverse().find((tocTop) => {
-			return scrollTop >= tocTop.top - 4;
+			return scrollTop >= tocTop.top - 50;
 		});
 		setActiveId(currentHeading ? currentHeading.id : null);
 	}, [tocTops]);
@@ -97,8 +97,8 @@ export const Toc = ({ toc }: TocProps) => {
 
 	return (
 		<aside className="absolute -top-[200px] -mb-[100px] h-[calc(100%+150px)] left-full hidden xl:block">
-			<div className="sticky bottom-0 top-[200px] z-10 ml-[5rem] mt-[200px] w-[200px] overflow-y-auto overflow-x-hidden">
-				<ul className="border-l px-5 py-1 text-1618">
+			<div className="sticky bottom-0 top-[200px] z-10 ml-[4rem] mt-[200px] w-[200px] overflow-y-auto overflow-x-hidden">
+				<ul className="border-l px-4 py-1 text-1618">
 					{toc.map((item) => (
 						<li
 							key={item.id}
