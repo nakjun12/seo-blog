@@ -2,6 +2,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import fs from "node:fs";
 import path from "node:path";
 import type { Frontmatter, Post } from "./post.type";
+import { sortByDateDescending } from "../lib/utils/time.util";
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
@@ -51,13 +52,21 @@ export const getPost = async (
 export const getCategoryPosts = async (filePath: string) => {
 	const fullPath = path.join(postsDirectory, filePath);
 
-	return (
-		await Promise.all(
-			readDirectory(fullPath).map((path) => {
-				return getPost(path.filePath);
-			}),
-		)
-	).filter((post) => post !== null) as Array<Post & Frontmatter>;
+	const posts = await Promise.all(
+		readDirectory(fullPath).map((path) => getPost(path.filePath)),
+	);
+
+	const validPosts = posts.filter((post) => post !== null) as Array<
+		Post & Frontmatter
+	>;
+
+	if (validPosts.length > 1) {
+		validPosts.sort((a, b) =>
+			sortByDateDescending(a.releaseDate, b.releaseDate),
+		);
+	}
+
+	return validPosts;
 };
 
 export const getFrontmatter = async (source: string): Promise<Frontmatter> => {
@@ -69,11 +78,21 @@ export const getFrontmatter = async (source: string): Promise<Frontmatter> => {
 };
 
 export const getAllPosts = async () => {
-	return (
-		await Promise.all(
-			readDirectory(postsDirectory).map((path) => getPost(path.filePath)),
-		)
-	).filter((post) => post !== null) as Array<Post & Frontmatter>;
+	const posts = await Promise.all(
+		readDirectory(postsDirectory).map((path) => getPost(path.filePath)),
+	);
+
+	const validPosts = posts.filter((post) => post !== null) as Array<
+		Post & Frontmatter
+	>;
+
+	if (validPosts.length > 1) {
+		validPosts.sort((a, b) =>
+			sortByDateDescending(a.releaseDate, b.releaseDate),
+		);
+	}
+
+	return validPosts;
 };
 
 export const getCategories = (): string[] => {

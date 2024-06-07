@@ -20,7 +20,7 @@ export const PostPage = ({ post, toc }: PostProps) => {
 			<PostAuthorHead
 				authorName={post.authorName}
 				authorIcon={post.authorIcon}
-				writeDate={post.writeDate}
+				releaseDate={post.releaseDate}
 			/>
 			<div className="relative">
 				<Toc toc={toc} />

@@ -10,7 +10,6 @@ export const parseToc = (content: string): TocItem[] => {
 
 	// 정규식에 매칭되는 모든 헤더 태그를 배열로 만듬
 	const headingList = content.match(regex);
-	console.log(headingList);
 
 	// 매칭된 헤더 태그를 처리하여 목차 아이템 배열을 만듬
 	return (

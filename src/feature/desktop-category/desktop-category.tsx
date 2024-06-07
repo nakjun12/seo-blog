@@ -6,13 +6,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export const DesktopCategory = ({ categories }: { categories: string[] }) => {
-	const { isMenuOpen, toggleMenu } = useToggleStore();
+	const { isDesktopMenuOpen, toggleDesktopMenu } = useToggleStore();
 	const pathname = usePathname().replace(/\//g, "");
 
 	return (
 		<menu
 			className={`absolute top-[48px] left-[80px] h-14 bg-white shadow-xl z-50 p-6 flex gap-6 rounded-md border border-seo-200 items-center ${
-				isMenuOpen ? "" : "hidden"
+				isDesktopMenuOpen ? "" : "hidden"
 			}`}
 		>
 			{categories.map((category) => (
@@ -24,7 +24,7 @@ export const DesktopCategory = ({ categories }: { categories: string[] }) => {
 						if (pathname === category) {
 							e.preventDefault();
 						} else {
-							toggleMenu(false);
+							toggleDesktopMenu(false);
 						}
 					}}
 					className={`text-1418 rounded-md p-2 ${
