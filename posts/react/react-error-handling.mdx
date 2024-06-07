@@ -1,0 +1,205 @@
+---
+title: React 에러 처리하는 방법
+description: React Router Dom, React Query, Error Boundary를 활용하여 선언적으로 에러 관리하는 법에 대해 정리하였습니다.
+thumbnail: /react-logo.png
+categories: react
+authorName: 황낙준
+authorIcon: authorIcon/HNJ.webp
+authorIntro: 안녕하세요 황낙준입니다.
+writeDate: 2024-06-07 22:05:42
+releaseDate: 2024-06-07 22:05:42
+---
+
+<br/>
+
+### ✅ 개요
+
+유저가 페이지를 보던 중, 다양한 영역에서 오류가 발생할 수 있습니다.
+이때 레이어별로 에러를 구분하지 않는다면 유저에게 혼란을 야기하고, 좋지 않은 경험을 줄 수 있어서 중요한 부분입니다.
+
+그래서 저는 유저에게 올바른 피드백을 주기 위해 레이어별로 에러를 관리하는 방법에 관해 정리해보려고 합니다.
+
+React Query와 Error Boundary, React Router Dom을 사용하여 에러 핸들링을 하였습니다.
+
+(ErrorBoundary에 대해서는 따로 설명하지 않습니다.)
+
+<br/>
+
+### 🙌 QueryErrorResetBoundary
+
+React Query는 throwOnError 옵션을 통해 데이터 요청 중 발생하는 에러를 관리할 수 있게 도와줍니다.
+
+하지만 이는 종종 문제를 일으킬 수 있습니다.
+
+만약에 에러가 캐싱된다면 다시 요청해도 반복해서 에러를 주는 이슈가 있습니다.
+
+이러한 문제를 해결하기위해서 QueryErrorResetBoundary가 등장하였습니다.
+
+#### QueryErrorResetBoundary의 역할
+QueryErrorResetBoundary는 다음과 같이 동작합니다.
+
+> 1. **에러 상태 초기화:**
+QueryErrorResetBoundary 내부에서 발생한 쿼리 에러를 감지하고, 사용자가 재시도 버튼을 클릭하면 해당 쿼리의 에러 상태를 초기화합니다.
+
+> 2. **쿼리 재실행:**
+에러 상태가 초기화되면 useQuery 훅은 자동으로 쿼리를 재실행하여 데이터를 다시 가져오려고 시도합니다.
+
+
+
+#### 실제 예시
+아래처럼 작성하여 사용할 수 있습니다.
+
+```jsx
+import { QueryErrorResetBoundary } from '@tanstack/react-query'
+import { ErrorBoundary } from 'react-error-boundary'
+
+const App = () => (
+  <QueryErrorResetBoundary>
+    {({ reset }) => (
+      <ErrorBoundary
+        onReset={reset}
+        fallbackRender={({ resetErrorBoundary }) => (
+          <div>
+            There was an error!
+            <Button onClick={() => resetErrorBoundary()}>Try again</Button>
+          </div>
+        )}
+      >
+        <Page />
+      </ErrorBoundary>
+    )}
+  </QueryErrorResetBoundary>
+  ```
+
+에러바운더리와 조합하여 보조하는 방식으로 작동합니다.
+
+<br/>
+
+### Router 에러
+
+RRD(React Router Dom)에서 오류가 발생하는 경우에는 이를 레이어별로 구분해서 처리해주는 것이 중요합니다.
+
+
+```jsx
+const router = createBrowserRouter([
+
+      {
+   		path: "/",
+    	element: <Layout />,
+        errorElement: <RootErrorBoundary />,
+        children: [
+          {
+            path: "projects/:projectId",
+            element: <Project />,
+            errorElement: <RouterErrorBoundary />,.
+
+          },
+      },
+    ],
+  },
+]);
+```
+
+위 라우터를 보면, 감싸고 있는 루트에서 발생한 오류인지
+아니면 페이지 컴포넌트에서 발생하는 오류인지 상황에 맞추어 핸들링을 해주어야합니다.
+
+그래서 위처럼 errorElement를 활용하여 레이어 별로 구분하여 관리해줄 수 있습니다.
+
+저는 RRD에서 권장하는 example을 참고하여 작성하였습니다.
+먼저 페이지 에러를 관리해주는 컴포넌트부터 보겠습니다.
+
+#### RouterErrorBoundary
+
+```jsx
+import { isRouteErrorResponse, useRouteError } from "react-router-dom";
+
+const RouterErrorBoundary = () => {
+  const error = useRouteError() as Error;
+
+  if (!isRouteErrorResponse(error)) {
+    // 라우팅 에러가 아닌 경우 일반 에러 페이지로 이동
+    return <GeneralErrorPage error={error} />;
+  }
+
+  // 라우팅 에러인 경우 사용자에게 안내 메시지와 새로고침 버튼 제공
+  return (
+    <main className="flex h-screen flex-col items-center justify-center">
+      <h2 className="text-center">오류가 발생했습니다</h2>
+      <p>경로 오류가 발생했습니다.</p>
+      <p>{SAME_PROBLEM_MESSAGE}</p>
+      <button
+        className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
+        onClick={() => window.location.reload()}
+      >
+        새로고침하기
+      </button>
+    </main>
+  );
+};
+```
+
+* **`useRouteError`:** 현재 라우트에서 발생한 에러 객체를 가져옵니다.
+* **`isRouteErrorResponse`:** 가져온 에러가 라우팅 과정에서 발생한 에러인지 확인합니다.
+* **라우팅 에러 처리:** 라우팅 에러인 경우 사용자에게 친절한 안내 메시지와 함께 페이지 새로고침을 유도하는 버튼을 제공합니다.
+* **일반 에러 처리:** 라우팅 에러가 아닌 경우, `GeneralErrorPage` 컴포넌트를 렌더링하여 일반적인 에러 처리 로직을 수행합니다.
+
+**핵심:**
+
+`RouterErrorBoundary`는 라우팅 에러와 일반 에러를 구분하여 처리함으로써 사용자에게 더욱 정확하고 유용한 정보를 제공합니다.
+라우팅 에러 발생 시에는 사용자가 페이지를 새로고침하여 문제를 해결할 수 있도록 유도하고, 일반 에러 발생 시에는 별도의 에러 처리 로직을 통해 문제 해결을 돕습니다.
+
+다음으로는 최상단을 보겠습니다.
+위와 마찬가지로 RRD의 가이드라인을 참고하여 작성하였습니다.
+
+<br/>
+
+#### RootErrorBoundary
+
+`RootErrorBoundary` 컴포넌트는 React Router Dom 애플리케이션의 최상위 레벨에서 발생하는 예상치 못한 에러를 처리하는 핵심적인 역할을 담당합니다.
+다른 모든 에러 처리 메커니즘이 실패했을 때, `RootErrorBoundary`는 마지막 방어선으로 작동하여 사용자에게 친절한 에러 메시지를 제공하고 문제 해결을 돕습니다.
+
+**코드 분석:**
+
+```jsx
+import { useRouteError } from "react-router-dom";
+
+const RootErrorBoundary = () => {
+  const error = useRouteError() as Error;
+  return (
+    <main className="flex h-screen flex-col items-center justify-center">
+      <h2 className="text-center">현재 오류가 발생했습니다.</h2>
+      <p>문제의 세부 사항: {error.message || JSON.stringify(error)}</p>
+      <button
+        className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
+        onClick={() => (window.location.href = "/")}
+      >
+        앱 새로 시작하기
+      </button>
+    </main>
+  );
+};
+```
+* **`useRouteError`:** 현재 라우트에서 발생한 에러 객체를 가져옵니다.
+* **에러 메시지 표시:** 에러 객체의 `message` 속성이 존재하면 해당 메시지를 표시하여 사용자가 에러 내용을 파악할 수 있도록 돕습니다.
+만약 `message` 속성이 없거나 비어있는 경우에는, `JSON.stringify`를 사용하여 에러 객체 전체를 문자열로 변환하여 상세한 에러 정보를 제공합니다.
+
+**핵심:**
+
+`RootErrorBoundary`는 애플리케이션 전체의 안정성을 보장하는 최후의 보루입니다. 예상치 못한 에러가 발생하더라도 사용자에게 최소한의 불편을 주면서 문제 해결을 위한 가이드를 제시합니다.
+
+다만, 최상위 레벨에서 발생하는 에러는 근본적인 문제일 가능성이 높아, 새로고침 외에 즉각적인 해결책을 제공하기 어려울 수 있습니다.
+
+<br/>
+
+
+### 끝으로
+
+이번 글에서는 React Query, Error Boundary, React Router Dom을 활용하여 프론트엔드 에러 처리 전략을 단계별로 살펴보았습니다.
+React Query 공식 문서와 React Router Dom 공식 문서를 참고하여 작성되었으며, 레이어 별로 구분하여 잘정리하셨으면 좋겠습니다 감사합니다!
+
+<br/>
+
+
+출처:
+[https://tanstack.com/query/latest/docs/framework/react/reference/QueryErrorResetBoundary](https://tanstack.com/query/latest/docs/framework/react/reference/QueryErrorResetBoundary){target="_blank"}
+[https://github.com/remix-run/react-router](https://github.com/remix-run/react-router){target="_blank"}
