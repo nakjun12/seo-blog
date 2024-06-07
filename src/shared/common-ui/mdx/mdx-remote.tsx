@@ -11,7 +11,7 @@ interface MdxRemoteProps {
 }
 export const MdxRemote = ({ source }: MdxRemoteProps) => {
 	return (
-		<article className="border-y py-2.5 prose max-w-none">
+		<article className="border-b pb-2.5 prose max-w-none border-seo-300">
 			<MDXRemote
 				source={source}
 				components={MDXComponents}

@@ -25,7 +25,8 @@ export const PostCard = ({ post }: PostProps) => {
 								placeholder="empty"
 								fill
 								priority
-								sizes="(max-width: 000px) 50vw, 450px"
+								sizes="(min-width: 1300px) 410px, (min-width: 1064px) calc((100vw - 64px) / 3), (min-width: 768px) calc((100vw - 48px) / 2), calc(100vw - 32px)"
+								style={{ objectFit: "cover" }}
 							/>
 						</div>
 						<h2 className="px-4 pt-5 text-1624 font-semibold sm:text-1825 md:text-1624 line-clamp-1">

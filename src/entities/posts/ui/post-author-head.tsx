@@ -17,7 +17,7 @@ export const PostAuthorHead = ({
 	const date = dayjs(releaseDate);
 
 	return (
-		<div className="flex h-10 gap-2.5 my-1">
+		<div className="flex h-10 gap-2.5 mt-1 mb-2">
 			<Image
 				width={40}
 				height={40}
