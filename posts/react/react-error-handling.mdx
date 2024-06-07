@@ -4,7 +4,7 @@ description: React Router Dom, React Query, Error Boundary를 활용하여 선�
 thumbnail: /react-logo.png
 categories: react
 authorName: 황낙준
-authorIcon: authorIcon/HNJ.webp
+authorIcon: /authorIcon/HNJ.webp
 authorIntro: 안녕하세요 황낙준입니다.
 writeDate: 2024-06-07 22:05:42
 releaseDate: 2024-06-07 22:05:42
@@ -12,7 +12,7 @@ releaseDate: 2024-06-07 22:05:42
 
 <br/>
 
-### ✅ 개요
+## ✅ 개요
 
 유저가 페이지를 보던 중, 다양한 영역에서 오류가 발생할 수 있습니다.
 이때 레이어별로 에러를 구분하지 않는다면 유저에게 혼란을 야기하고, 좋지 않은 경험을 줄 수 있어서 중요한 부분입니다.
@@ -25,7 +25,7 @@ React Query와 Error Boundary, React Router Dom을 사용하여 에러 핸들링
 
 <br/>
 
-### 🙌 QueryErrorResetBoundary
+## 🙌 QueryErrorResetBoundary
 
 React Query는 throwOnError 옵션을 통해 데이터 요청 중 발생하는 에러를 관리할 수 있게 도와줍니다.
 
@@ -35,7 +35,7 @@ React Query는 throwOnError 옵션을 통해 데이터 요청 중 발생하는 �
 
 이러한 문제를 해결하기위해서 QueryErrorResetBoundary가 등장하였습니다.
 
-#### QueryErrorResetBoundary의 역할
+### QueryErrorResetBoundary의 역할
 QueryErrorResetBoundary는 다음과 같이 동작합니다.
 
 > 1. **에러 상태 초기화:**
@@ -46,7 +46,7 @@ QueryErrorResetBoundary 내부에서 발생한 쿼리 에러를 감지하고, �
 
 
 
-#### 실제 예시
+### 실제 예시
 아래처럼 작성하여 사용할 수 있습니다.
 
 ```jsx
@@ -75,7 +75,7 @@ const App = () => (
 
 <br/>
 
-### Router 에러
+## Router 에러
 
 RRD(React Router Dom)에서 오류가 발생하는 경우에는 이를 레이어별로 구분해서 처리해주는 것이 중요합니다.
 
@@ -108,7 +108,7 @@ const router = createBrowserRouter([
 저는 RRD에서 권장하는 example을 참고하여 작성하였습니다.
 먼저 페이지 에러를 관리해주는 컴포넌트부터 보겠습니다.
 
-#### RouterErrorBoundary
+### RouterErrorBoundary
 
 ```jsx
 import { isRouteErrorResponse, useRouteError } from "react-router-dom";
@@ -153,7 +153,7 @@ const RouterErrorBoundary = () => {
 
 <br/>
 
-#### RootErrorBoundary
+### RootErrorBoundary
 
 `RootErrorBoundary` 컴포넌트는 React Router Dom 애플리케이션의 최상위 레벨에서 발생하는 예상치 못한 에러를 처리하는 핵심적인 역할을 담당합니다.
 다른 모든 에러 처리 메커니즘이 실패했을 때, `RootErrorBoundary`는 마지막 방어선으로 작동하여 사용자에게 친절한 에러 메시지를 제공하고 문제 해결을 돕습니다.
@@ -192,7 +192,7 @@ const RootErrorBoundary = () => {
 <br/>
 
 
-### 끝으로
+## 끝으로
 
 이번 글에서는 React Query, Error Boundary, React Router Dom을 활용하여 프론트엔드 에러 처리 전략을 단계별로 살펴보았습니다.
 React Query 공식 문서와 React Router Dom 공식 문서를 참고하여 작성되었으며, 레이어 별로 구분하여 잘정리하셨으면 좋겠습니다 감사합니다!
