@@ -3,6 +3,7 @@ import type { Frontmatter, Post } from "@/src/entities/posts/model/post.type";
 import { PostAuthorFoot } from "@/src/entities/posts/ui/post-author-foot";
 import { PostAuthorHead } from "@/src/entities/posts/ui/post-author-head";
 import { PostTitle } from "@/src/entities/posts/ui/post-title";
+import { PostTitleImage } from "@/src/entities/posts/ui/post-title-image";
 import { Breadcrumb } from "@/src/shared/common-ui/breadcrumb";
 import { MdxRemote } from "@/src/shared/common-ui/mdx";
 import { Toc } from "@/src/shared/common-ui/toc/toc";
@@ -22,6 +23,7 @@ export const PostPage = ({ post, toc }: PostProps) => {
 				authorIcon={post.authorIcon}
 				releaseDate={post.releaseDate}
 			/>
+			<PostTitleImage image={post.thumbnail} title={post.title} />
 			<div className="relative">
 				<Toc toc={toc} />
 				<MdxRemote source={post.content} />
