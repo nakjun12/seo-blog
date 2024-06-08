@@ -1,0 +1,250 @@
+---
+title: 리액트 캘린더를 만드는 방법
+description: 리액트를 활용할 때에 캘린더 UI를 만드는 방법을 상세히 다룹니다.
+thumbnail: /test_bg.webp
+categories: react
+authorName: XionWCFM
+authorIcon: /authorIcon/YGJ.webp
+authorIntro: 글을 쓰는 것을 좋아하는 프론트엔드 개발자입니다.
+writeDate: 2024-06-09 22:00:00
+releaseDate: 2024-06-10 09:00:00
+---
+
+안녕하세요. 오늘은 리액트 캘린더를 만드는 방법을 다루어보겠습니다.
+
+React Calendar를 만드는 것은 일반적으로 어렵게 여기는 것이 쉽기 때문에 라이브러리를 사용하는 것을 고려하곤 합니다.
+
+[react-calendar](https://github.com/wojtekmaj/react-calendar) 와 같이 캘린더 UI를 구현하는 리액트 캘린더 라이브러리를 설치하는 경우가 많습니다.
+
+그러나 react-calendar 와 같은 라이브러리는 CSS를 설정하기 위해 많은 작업이 필요하게되곤하며 사용방법을 알아내야합니다.
+
+그에 대한 대안으로 조금 더 쉬운 방법을 찾는다면 Input 요소의 type 중 하나인 date type을 사용할 수 있습니다.
+
+[MDN WEB DOCS - input](https://developer.mozilla.org/ko/docs/Web/HTML/Element/input/date) 을 참고하여 이러한 달력을 아주 쉽게 만들 수 있습니다.
+
+```html
+<label for="start">Start date:</label>
+<input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31" />
+```
+
+하지만 이렇게 input의 date를 사용하는 방식은 커스터마이징에 한계가 있기때문에 UI 요구사항이 복잡해질수록 한계가 있을 수 있습니다.
+
+따라서 상태와 데이터를 통해 캘린더를 구현하는 방법을 알아보겠습니다.
+
+
+## 리액트 캘린더를 만들기 위한 라이브러리 설치하기
+
+```
+npm i date-fns
+```
+
+```
+yarn add date-fns
+```
+
+```
+pnpm install date-fns
+```
+
+date-fns 라는 날짜 라이브러리를 설치하겠습니다.
+
+date-fns는 next.js에서는 기본적으로 tree shaking을 지원할만큼 많은 사람들이 사용하고있는 날짜 라이브러리입니다.
+
+달력구현이후 달 넘어가기, 년 넘어가기 등의 기능을 구현할 때에 편리한 점이 있으며 그와 별개로 이전달의 정보 미리보여주기, 다음달의 정보 미리보여주기 등의 기능에 활용하게됩니다.
+
+직접 구현하셔도 문제는 없을만큼 간단한 함수들을 활용할 예정입니다.
+
+
+## 달력을 만드는 메인 로직 구상하기
+
+### 달력은 어떻게 만들 수 있을까?
+
+<img width="200" height="400" alt="" src="/posts/how-to-make-react-calendar-1.webp"/>
+
+일반적으로 달력은 6개의 세로줄을 가지고 7개의 가로줄을 가진 2차원 배열의 형태를 띕니다.
+
+따라서 우리는 2차원 형태의 배열을 주어진 달에 맞게 구성하게되면 달력을 구현할 수 있습니다.
+
+또한 달력은 특정 날짜를 선택하는 기능이 일반적으로 포함됩니다. 이러한 경우에는 특정한 날짜를 정확하게 알기위해
+
+각 요소가 년, 월, 일에 대한 정보를 가지고 있는 편이 유리할것이라는 추론을 할 수 있습니다.
+
+이에 따라 달력을 구현하여봅시다.
+
+```ts
+import { addDays } from "date-fns/addDays";
+import { addMonths } from "date-fns/addMonths";
+import { getDaysInMonth } from "date-fns/getDaysInMonth";
+import { startOfMonth } from "date-fns/startOfMonth";
+import { subMonths } from "date-fns/subMonths";
+
+const CALENDER_LENGTH = 42;
+const DAY_OF_WEEK = 7;
+
+enum DayEnum {
+  sunday = 0,
+  monday = 1,
+  tuesday = 2,
+  wednesday = 3,
+  thursday = 4,
+  friday = 5,
+  saturday = 6,
+}
+
+const getPrevDayCount = (date: Date, startDay: keyof typeof DayEnum) => {
+  const prevDayCount = (startOfMonth(date).getDay() - DayEnum[startDay] + DAY_OF_WEEK) % DAY_OF_WEEK;
+  return prevDayCount;
+};
+
+const getPrevMonthDate = (date: Date, length: number) => {
+  const lastDayOfPrevMonth = getDaysInMonth(subMonths(date, 1));
+
+  const prevDayList = Array.from({ length }).map((_, i) => {
+    return addDays(new Date(date.getFullYear(), date.getMonth() - 1, 1), lastDayOfPrevMonth - length + i);
+  });
+  return prevDayList;
+};
+
+const getCurrentMonthDate = (date: Date) => {
+  const length = getDaysInMonth(date);
+  const startOfMonthDate = startOfMonth(date);
+  return Array.from({ length }).map((_, i) => {
+    return addDays(startOfMonthDate, i);
+  });
+};
+
+const getNextDayCount = (currentDayLength: number, prevDayLength: number) => {
+  return CALENDER_LENGTH - currentDayLength - prevDayLength;
+};
+
+const getNextMonthDate = (date: Date, length: number) => {
+  const firstDayOfNextMonth = startOfMonth(addMonths(date, 1));
+  const nextDayList = Array.from({ length }).map((_, i) => {
+    return addDays(firstDayOfNextMonth, i);
+  });
+  return nextDayList;
+};
+
+const flatTo2DArray = (dateList: Date[]) => {
+  return dateList.reduce((acc: Date[][], cur, idx) => {
+    const chunkIndex = Math.floor(idx / DAY_OF_WEEK);
+    if (!acc[chunkIndex]) {
+      acc[chunkIndex] = [];
+    }
+    acc[chunkIndex].push(cur);
+    return acc;
+  }, []);
+};
+
+```
+
+이렇게 달력을 구성하기 위해 필요한 각 기능들을 구현하는 작은 함수들을 작성합니다.
+
+외부에서 받는 date 객체를 기반으로 이번달 정보와 이전달 정보, 다음달 정보를 만들어낸뒤 이전달, 이번달, 다음달 정보를 이어붙이고 2차원 배열로 만들면 끝인것이죠
+
+이제 위의 작은 함수들을 이용하여 date와 시작날짜를 넣어주면 달력 데이터 구조를 뱉어주는 함수를 구성해봅시다.
+
+
+```ts
+const createCalendarList = (date: Date, option: UseCalendarProps = { startDay: "sunday" }): Date[][] => {
+  const { startDay } = option;
+  const curDayList = getCurrentMonthDate(date);
+
+  const prevDayCount = getPrevDayCount(date, startDay);
+  const prevDayList = getPrevMonthDate(date, prevDayCount);
+
+  const nextDayCount = getNextDayCount(curDayList.length, prevDayList.length);
+  const nextDayList = getNextMonthDate(date, nextDayCount);
+
+  const flatCalendarList = prevDayList.concat(curDayList, nextDayList);
+  const calendar = flatTo2DArray(flatCalendarList);
+  return calendar;
+};
+
+```
+
+이제 리액트 뿐만 아니라 어느 프레임워크에서도 사용가능한 달력만들기 순수함수를 작성하였습니다.
+
+이것을 이용하여 이제 리액트에서 사용해봅시다.
+
+
+### 리액트와 달력 로직 합치기
+
+```tsx
+const CalendarComponent = () => {
+    const [calendarDate,setCalendarDate] = useState<Date>(new Date())
+    const calendarList = createCalendarList(calendarDate)
+    return (
+        <div>
+            {
+                calendarList.map(week => (
+                    <div>
+                        {week.map(day => (
+                            <div>
+                                {day.getDay()}
+                            </div>
+                        ))}
+                    </div>
+                ))
+            }
+        </div>
+    )
+}
+
+```
+
+리액트와 합치기 위해 useState를 사용한 후 createCalendarList를 이용하여 달력을 만든뒤 map 구문을 통하여 달력을 만들어줍니다.
+
+이제 달력을 넘기는 기능을 구현해봅시다.
+
+### 달력 넘기는 기능 만들기
+
+달력 넘기기를 만들기 위해서는 createCalendarList에 넣어주는 date의 달이 바뀌어주면 됩니다.
+
+따라서 현재 날짜에서 달을 더해주는 함수를 구성한 뒤 setCalendarDate에 넘겨주면되겠지요
+
+```tsx
+import { addMonths } from "date-fns/addMonths";
+import { subMonths } from "date-fns/subMonths";
+
+const CalendarComponent = () => {
+    const [calendarDate,setCalendarDate] = useState<Date>(new Date())
+    const calendarList = createCalendarList(calendarDate)
+    const handleNextMonthButtonClick = () => {
+        setCalendarDate(addMonths(calendarDate, 1))
+    }
+    const handlePrevMonthButtonClick = () => {
+        setCalendarDate(subMonths(calendarDate, 1))
+    }
+    return (
+        <div>
+            {
+                calendarList.map(week => (
+                    <div>
+                        {week.map(day => (
+                            <div>
+                                {day.getDay()}
+                            </div>
+                        ))}
+                    </div>
+                ))
+            }
+        </div>
+    )
+}
+```
+
+date-fns의 addMonths 는 첫번째 인수 Date 객체를 두번째 인수 숫자만큼 다음달로 넘기는 일을 합니다.
+
+이렇게 현재 날짜를 다음달로 넘겨주면 달력넘기기를 쉽게 구현할 수 있겠죠?
+
+이전달로 넘어가는것도, 다음 년도로 넘어가는것도, 이전 년도로 넘어가는것도 마찬가지의 원리로 구현하시면 되겠습니다.
+
+## 마치며
+
+
+이번 글을 통하여 리액트 캘린더를 구현하는 일은 그리 어렵지 않다는 생각이 드셨다면 좋겠습니다.
+
+이상으로 글을 마치도록 하겠습니다.
+
+읽어주셔서 감사합니다.
