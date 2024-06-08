@@ -1,0 +1,180 @@
+---
+title: 타입스크립트 유틸리티 타입 많이 쓰는것들부터 차근차근 익히기
+description: 타입스크립트의 유틸리티 타입들의 종류와 사용법을 학습합니다.
+thumbnail: /test_bg.webp
+categories: typescript
+authorName: XionWCFM
+authorIcon: /authorIcon/YGJ.webp
+authorIntro: 글을 쓰는 것을 좋아하는 프론트엔드 개발자입니다.
+writeDate: 2024-06-10 22:00:00
+releaseDate: 2024-08-14 09:00:00
+---
+
+타입스크립트는 자바스크립트의 상위 집합으로, 정적 타입을 제공함으로써 코드의 안정성과 가독성을 높여줍니다.
+
+특히 타입스크립트에는 유틸리티 타입이라는 강력한 기능이 있습니다.
+
+유틸리티 타입은 기존 타입을 변환하거나 조합하여 새로운 타입을 만들 때 매우 유용한데요.
+
+이번 글에서는 타입스크립트의 대표적인 유틸리티 타입들을 알아보고, 이를 어떻게 활용할 수 있는지 예제와 함께 살펴보겠습니다.
+
+
+## 타입스크립트 유틸리티 타입이 필요한 이유
+
+타입스크립트에서 유틸리티 타입은 코드의 가독성과 유지보수성을 높여줍니다.
+
+복잡한 타입을 간결하게 정의할 수 있고, 재사용성을 높여 반복적인 코드를 줄일 수 있습니다.
+
+대표적인 타입스크립트 유틸리티 타입으로는 Partial, Pick, Omit, Record, Readonly, Required, ReturnType 등이 있습니다.
+
+
+
+## 자주쓰는 타입스크립트 유틸리티 타입들 알아보기
+
+### Partial
+
+Partial 타입은 모든 프로퍼티를 선택적으로 만드는 타입입니다. 주로 객체를 부분적으로 업데이트할 때 사용됩니다.
+
+```tsx
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+function updateUser(user: User, updates: Partial<User>): User {
+  return { ...user, ...updates };
+}
+
+const user: User = { id: 1, name: "Alice", email: "alice@example.com" };
+const updatedUser = updateUser(user, { name: "Alicia" });
+```
+
+즉 Partial 타입은 객체의 요소를 optional하게 만든다라고도 볼 수 있습니다.
+
+```ts
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+type PartialUser = Partial<User>
+
+type EqualPartialuser = {
+    id?:number;
+    name?:string;
+    email?:string
+}
+```
+
+위와같이 PartialUser는 EqualPartialUser와 같은 의미를 지니게됩니다.
+
+### Pick
+
+Pick 타입은 특정 프로퍼티만 선택하여 타입을 만드는 데 사용합니다.
+
+```ts
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+type UserPreview = Pick<User, "id" | "name">;
+
+const userPreview: UserPreview = { id: 1, name: "Alice" };
+
+```
+
+Pick 타입의 첫번째에는 타입 두번째에는 해당 타입이 가지고있는 key 값을 문자열 형태로 넣어요
+
+필요한 키값만 쏙쏙 뽑아온다라는 의미에서 Pick이라고 생각하면 쉽습니다
+
+### Omit
+
+Pick이 필요한것만 뽑아온다는 의미였다면 Omit은 필요없는걸 제외하는 타입입니다.
+
+```ts
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+type UserWithoutEmail = Omit<User, "email">;
+
+const userWithoutEmail: UserWithoutEmail = { id: 1, name: "Alice" };
+
+```
+
+이렇게 필요없는 email 타입을 제외하여 id와 name만 남겨준것을 볼 수 있어요
+
+
+### Record
+
+```ts
+type Role = "admin" | "user" | "guest";
+
+interface Permissions {
+  read: boolean;
+  write: boolean;
+  delete: boolean;
+}
+
+const rolePermissions: Record<Role, Permissions> = {
+  admin: { read: true, write: true, delete: true },
+  user: { read: true, write: true, delete: false },
+  guest: { read: true, write: false, delete: false },
+};
+
+```
+
+레코드 타입은 특정 키 타입과 값 타입을 가지는 객체 타입을 정의할 때 사용하는 타입이에요
+
+다음과 같이 키값을 어떤 타입들만 가능하도록 만들어야할때에 유용하게 사용된답니다.
+
+### Required
+
+Partial이 모든 프로퍼티를 선택으로 만들었다면 Required는 반대로 모든 프로퍼티를 필수로 만들어요
+
+```ts
+interface User {
+  id: number;
+  name?: string;
+  email?: string;
+}
+
+type RequiredUser = Required<User>;
+
+const user: RequiredUser = { id: 1, name: "Alice", email: "alice@example.com" };
+
+```
+
+
+### ReturnType
+
+ReturnType은 함수 타입의 반환값 타입을 추출할 때 사용합니다.
+
+```ts
+function getUser() {
+  return { id: 1, name: "Alice", email: "alice@example.com" };
+}
+
+type User = ReturnType<typeof getUser>;
+
+const user: User = { id: 1, name: "Alice", email: "alice@example.com" };
+
+```
+
+
+## 마치며
+
+이번 글에서는 타입스크립트의 유틸리티 타입들을 활용하는 방법에 대해 알아보았습니다.
+
+유틸리티 타입을 잘 활용하면 타입 정의를 더욱 간결하고 유연하게 할 수 있으며, 코드의 유지보수성을 크게 향상시킬 수 있습니다.
+
+타입스크립트의 강력한 기능들을 잘 활용하여 더욱 안전하고 효율적인 코드를 작성해보시길 바랍니다.
+
+읽어주셔서 감사합니다.
+
