@@ -37,7 +37,9 @@ const config: Config = {
 				1818: ["1.125rem", "1.125rem"],
 				1825: ["1.125rem", "1.5625rem"],
 				1830: ["1.125rem", "1.875rem"],
+				2034: ["1.3rem", "2.125rem"],
 				2640: ["1.625rem", "2.5rem"],
+				3240: ["2rem", "2.5rem"],
 			},
 			typography: {
 				DEFAULT: {
