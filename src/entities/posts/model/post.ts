@@ -2,7 +2,11 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import fs from "node:fs";
 import path from "node:path";
 import type { Frontmatter, Post } from "./post.type";
-import { sortByDateDescending } from "../lib/utils/time.util";
+import {
+	isFirstDateBeforeSecond,
+	sortByDateDescending,
+} from "../lib/utils/time.util";
+import { ENVIRONMENT } from "@/src/shared/config/environment";
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
@@ -60,13 +64,24 @@ export const getCategoryPosts = async (filePath: string) => {
 		Post & Frontmatter
 	>;
 
-	if (validPosts.length > 1) {
-		validPosts.sort((a, b) =>
+	const today = new Date().toISOString();
+
+	// 아직 releaseDate가 되지않은 글들은 필터링하여 보여주지 않도록 구성합니다.
+	// 개발 환경에서는 신경쓰지 않아도 되게 구성합니다.
+	const filteredByReleaseDatePosts =
+		ENVIRONMENT.NODE_ENV === "development"
+			? validPosts.slice()
+			: validPosts.filter(
+					(post) => !isFirstDateBeforeSecond(today, post.releaseDate),
+				);
+
+	if (filteredByReleaseDatePosts.length > 1) {
+		filteredByReleaseDatePosts.sort((a, b) =>
 			sortByDateDescending(a.releaseDate, b.releaseDate),
 		);
 	}
 
-	return validPosts;
+	return filteredByReleaseDatePosts;
 };
 
 export const getFrontmatter = async (source: string): Promise<Frontmatter> => {
@@ -86,13 +101,24 @@ export const getAllPosts = async () => {
 		Post & Frontmatter
 	>;
 
-	if (validPosts.length > 1) {
-		validPosts.sort((a, b) =>
+	const today = new Date().toISOString();
+
+	// 아직 releaseDate가 되지않은 글들은 필터링하여 보여주지 않도록 구성합니다.
+	// 개발 환경에서는 신경쓰지 않아도 되게 구성합니다.
+	const filteredByReleaseDatePosts =
+		ENVIRONMENT.NODE_ENV === "development"
+			? validPosts.slice()
+			: validPosts.filter(
+					(post) => !isFirstDateBeforeSecond(today, post.releaseDate),
+				);
+
+	if (filteredByReleaseDatePosts.length > 1) {
+		filteredByReleaseDatePosts.sort((a, b) =>
 			sortByDateDescending(a.releaseDate, b.releaseDate),
 		);
 	}
 
-	return validPosts;
+	return filteredByReleaseDatePosts;
 };
 
 export const getCategories = (): string[] => {
