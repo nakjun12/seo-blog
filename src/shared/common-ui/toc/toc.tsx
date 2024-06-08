@@ -98,12 +98,12 @@ export const Toc = ({ toc }: TocProps) => {
 	return (
 		<aside className="absolute -top-[200px] -mb-[100px] h-[calc(100%+150px)] left-full hidden xl:block">
 			<div className="sticky bottom-0 top-[200px] z-10 ml-[4rem] mt-[200px] w-[200px] overflow-y-auto overflow-x-hidden">
-				<ul className="border-l px-4 py-1 text-1618">
+				<ul className="border-l px-4 py-1 text-1418">
 					{toc.map((item) => (
 						<li
 							key={item.id}
 							style={{ marginLeft: item.indent * 12 }}
-							className={`mt-2 text-seo-500  hover:font-semibold ease-in transition-all ${
+							className={`mt-2 text-seo-500  hover:font-semibold ease-in transition-all overflow-x-hidden overflow-y-auto ${
 								activeId === item.id && "text-seo-600 font-semibold scale-105"
 							}`}
 						>
