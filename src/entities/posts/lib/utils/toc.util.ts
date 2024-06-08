@@ -21,6 +21,7 @@ export const parseToc = (content: string): TocItem[] => {
 			const id = text
 				.toLowerCase()
 				.replace(/\s+/g, "-") // 하나 이상의 연속된 공백을 하이픈으로 대체
+				//@ts-expect-error
 				.replace(/[^\p{L}\p{N}\s-]/gu, ""); // 단어 문자(유니코드), 공백, 하이픈을 제외한 모든 문자를 제거
 
 			return {
