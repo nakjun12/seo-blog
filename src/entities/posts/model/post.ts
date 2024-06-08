@@ -2,7 +2,10 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import fs from "node:fs";
 import path from "node:path";
 import type { Frontmatter, Post } from "./post.type";
-import { sortByDateDescending } from "../lib/utils/time.util";
+import {
+	isFirstDateBeforeSecond,
+	sortByDateDescending,
+} from "../lib/utils/time.util";
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
@@ -82,9 +85,13 @@ export const getAllPosts = async () => {
 		readDirectory(postsDirectory).map((path) => getPost(path.filePath)),
 	);
 
-	const validPosts = posts.filter((post) => post !== null) as Array<
-		Post & Frontmatter
-	>;
+	const validPosts = posts
+		.filter((post) => post !== null)
+		.filter(
+			(post) =>
+				// 아직 releaseDate가 되지않은 글들은 필터링하여 보여주지 않도록 구성합니다.
+				!isFirstDateBeforeSecond(new Date().toISOString(), post.releaseDate),
+		) as Array<Post & Frontmatter>;
 
 	if (validPosts.length > 1) {
 		validPosts.sort((a, b) =>
