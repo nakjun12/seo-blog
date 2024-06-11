@@ -16,7 +16,7 @@ interface TocTops {
 	top: number;
 }
 
-export const Toc = ({ toc }: TocProps) => {
+export const SideToc = ({ toc }: TocProps) => {
 	const [activeId, setActiveId] = useState<string | null>(null);
 	const [tocTops, setTocTops] = useState<TocTops[] | null>(null);
 
