@@ -60,8 +60,7 @@ export const metadata: Metadata = {
 		},
 	},
 	robots: {
-		// todo: 나중에 포스팅시 isReleased로 치환
-		index: false,
+		index: true,
 	},
 };
 

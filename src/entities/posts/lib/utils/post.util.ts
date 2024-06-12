@@ -38,8 +38,7 @@ export const createMetaData = ({
 			description: post.description,
 		},
 		robots: {
-			// todo: 나중에 포스팅시 isReleased로 치환
-			index: false,
+			index: isReleased,
 		},
 	};
 };
@@ -77,8 +76,7 @@ export const createPostsMetaData = ({
 			description,
 		},
 		robots: {
-			// todo: 나중에 포스팅시 isReleased로 치환
-			index: false,
+			index: true,
 		},
 	};
 };
