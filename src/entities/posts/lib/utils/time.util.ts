@@ -17,7 +17,7 @@ export const isFirstDateBeforeSecond = (
 };
 
 export const findOutIsReleased = (postReleaseDate: string): boolean => {
-	const today = new Date();
-	const releaseDate = new Date(postReleaseDate);
-	return releaseDate < today;
+	const today = dayjs();
+	const releaseDate = dayjs(postReleaseDate);
+	return today.isSame(releaseDate) || today.isAfter(releaseDate);
 };
