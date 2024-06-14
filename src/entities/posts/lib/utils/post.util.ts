@@ -1,7 +1,7 @@
 import { BASE_URL, SITE_NAME } from "@/src/shared/config/constant";
-import dayjs from "dayjs";
 import type { Metadata } from "next/types";
 import type { Frontmatter } from "../../model/post.type";
+import { findOutIsReleased } from "./time.util";
 
 export const createMetaData = ({
 	url,
@@ -10,10 +10,7 @@ export const createMetaData = ({
 	url: string;
 	post: Frontmatter;
 }): Metadata => {
-	const today = dayjs(new Date().toISOString());
-	const isReleased =
-		today.isSame(post?.releaseDate, "day") &&
-		!today.isBefore(post?.releaseDate, "day");
+	const isReleased = findOutIsReleased(post.releaseDate);
 	return {
 		title: post.title,
 		description: post.description,
