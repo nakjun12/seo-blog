@@ -6,7 +6,8 @@ import { PostTitle } from "@/src/entities/posts/ui/post-title";
 import { PostTitleImage } from "@/src/entities/posts/ui/post-title-image";
 import { Breadcrumb } from "@/src/shared/common-ui/breadcrumb";
 import { MdxRemote } from "@/src/shared/common-ui/mdx";
-import { Toc } from "@/src/shared/common-ui/toc/toc";
+import { SideToc } from "@/src/shared/common-ui/side-toc/side-toc";
+import { TopToc } from "@/src/shared/common-ui/top-toc/top-toc";
 
 interface PostProps {
 	post: Post & Frontmatter;
@@ -25,7 +26,8 @@ export const PostPage = ({ post, toc }: PostProps) => {
 			/>
 			<PostTitleImage image={post.thumbnail} title={post.title} />
 			<div className="relative">
-				<Toc toc={toc} />
+				<TopToc toc={toc} />
+				<SideToc toc={toc} />
 				<MdxRemote source={post.content} />
 			</div>
 			<PostAuthorFoot
