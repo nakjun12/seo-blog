@@ -9,6 +9,7 @@ import {
 	SITE_NAME,
 } from "@/src/shared/config/constant";
 import { FAVICONS } from "@/src/shared/icons/favicons";
+import { WebsiteJsonLd } from "@/src/shared/json-ld/json-ld";
 import { Footer } from "@/src/widgets/footer";
 import { Header } from "@/src/widgets/header";
 import type { Metadata } from "next";
@@ -74,6 +75,7 @@ export default function RootLayout({
 	return (
 		<AutoRefresh>
 			<html lang="ko">
+				<WebsiteJsonLd />
 				<GoogleAddon />
 				<Providers>
 					<body className={`${pretendard.variable} font-pretendard`}>
