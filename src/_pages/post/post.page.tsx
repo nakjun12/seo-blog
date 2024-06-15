@@ -8,6 +8,7 @@ import { Breadcrumb } from "@/src/shared/common-ui/breadcrumb";
 import { MdxRemote } from "@/src/shared/common-ui/mdx";
 import { SideToc } from "@/src/shared/common-ui/side-toc/side-toc";
 import { TopToc } from "@/src/shared/common-ui/top-toc/top-toc";
+import { PostJsonLD } from "@/src/shared/json-ld/json-ld";
 
 interface PostProps {
 	post: Post & Frontmatter;
@@ -17,6 +18,7 @@ interface PostProps {
 export const PostPage = ({ post, toc }: PostProps) => {
 	return (
 		<>
+			<PostJsonLD post={post} />
 			<Breadcrumb postTitle={post.title} />
 			<PostTitle title={post.title} />
 			<PostAuthorHead
