@@ -1,0 +1,312 @@
+---
+title: React 19 RC 살펴보기
+description: React 19 RC 관련해서 살펴보았고, 이를 간단하게 정리해보았습니다.
+thumbnail: /react-logo.png
+categories: react
+authorName: 황낙준
+authorIcon: authorIcon/HNJ.webp
+authorIntro: 안녕하세요 황낙준입니다.
+writeDate: 2024-06-16 21:54:57
+releaseDate: 2024-06-19 09:00:00
+---
+
+# React 19 RC
+
+이번에 React 19 RC가 나오면서 다양한 변화가 있었습니다.
+
+> RC는 "Release Candidate"의 약자입니다. 소프트웨어 개발에서 RC는 베타 버전 이후에 출시되는, 안정적인 버전으로 간주되는 소프트웨어 버전을 의미합니다.
+>
+- 베타: 초기 테스트 버전.
+- RC (Release Candidate): 안정화 단계.
+- 릴리스: 공식적인 최종 버전.
+
+이를 간단하게 요약하고 이해하기 쉽게 정리해보았습니다.
+(여기서는 컴파일러나 문서 메타 데이터나, 스타일 시트, 스크립트 지원에 관해서는 다루지 않습니다.)
+
+
+<br/>
+
+## 비동기 관리 함수 업데이트
+
+크게 3가지로 나누어서 startTransition 비동기 지원, 낙관적 업데이트, 폼 관련해서 업데이트하였습니다.
+
+먼저 startTransition에 관해 이야기해보겠습니다.
+
+### startTransition 비동기 지원
+이전에은 startTransition이 비동기로 업데이트가 되지 않았습니다.
+이번에 관련해서 비동기 지원을 업데이트하면서 활용도가 높아졌습니다.
+
+먼저 적용안한 예시를 통해 이를 살펴보겠습니다.
+
+```jsx
+// Before Actions
+function UpdateName({}) {
+  const [name, setName] = useState("");
+  const [error, setError] = useState(null);
+  const [isPending, setIsPending] = useState(false);
+
+  const handleSubmit = async () => {
+    setIsPending(true);
+    const error = await updateName(name);
+    setIsPending(false);
+    if (error) {
+      setError(error);
+      return;
+    }
+    redirect("/path");
+  };
+
+  return (
+    <div>
+      <input value={name} onChange={(event) => setName(event.target.value)} />
+      <button onClick={handleSubmit} disabled={isPending}>
+        Update
+      </button>
+      {error && <p>{error}</p>}
+    </div>
+  );
+}
+```
+
+이전에는 위와 같이 작성하였습니다.
+
+이번에는 startTransition을 통해 개선해보겠습니다.
+
+```jsx
+// Using pending state from Actions
+function UpdateName({}) {
+  const [name, setName] = useState("");
+  const [error, setError] = useState(null);
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubmit = () => {
+    startTransition(async () => {
+      const error = await updateName(name);
+      if (error) {
+        setError(error);
+        return;
+      }
+      redirect("/path");
+    })
+  };
+
+  return (
+    <div>
+      <input value={name} onChange={(event) => setName(event.target.value)} />
+      <button onClick={handleSubmit} disabled={isPending}>
+        Update
+      </button>
+      {error && <p>{error}</p>}
+    </div>
+  );
+}
+```
+
+위와 같은 개선을 통해 어떠한 점이 좋아졌을까요?
+
+1. <b>UI 반응성 향상:</b>
+  startTransition을 사용하면 비동기 작업 시작 시 즉시 isPending 상태를 true로 설정하여 사용자에게 작업 진행 상황을 알리고, 작업 완료 후 isPending 상태를 false로 변경하여 UI를 업데이트합니다.
+
+1. <b>자동적인 렌더링 관리:</b>
+startTransition으로 인해서 여러번 클릭을 하면 마지막 요청만 업데이트합니다. 이는 자동검색을 구현할 때 유효합니다. 단 네트워크 요청을 취소하지는 않습니다.
+
+
+위와 같은 장점들을 추가할 수 있었습니다.
+추가적으로 useActionState를 통해서 이를 더 단순화할 수 있는데요.
+
+```jsx
+// Using <form> Actions and useActionState
+function ChangeName({ name, setName }) {
+  const [error, submitAction, isPending] = useActionState(
+    async (previousState, formData) => {
+      const error = await updateName(formData.get("name"));
+      if (error) {
+        return error;
+      }
+      redirect("/path");
+      return null;
+    },
+    null,
+  );
+
+
+  return (
+    <form action={submitAction}>
+      <input type="text" name="name" />
+      <button type="submit" disabled={isPending}>Update</button>
+      {error && <p>{error}</p>}
+    </form>
+  );
+}
+```
+3개의 상태에서 관리했던 내용을 하나의 훅에서 관리할 수 있습니다.
+이와 관련해서 알아보도록 하겠습니다.
+
+
+### useActionState
+
+19 RC에서는 시험적으로 사용하였던 useFormState는 더이상 사용하지 않고 새로운 이름으로 바뀌었습니다.
+
+> useFormState -> useActionState
+
+19 rc에서는 useActionState로 사용합니다.
+아래와 같은 용도로 사용합니다.
+
+```jsx
+const [error, submitAction, isPending] = useActionState(
+  async (previousState, newName) => {
+    const error = await updateName(newName);
+    if (error) {
+      // 에러 관련 값 설정
+      return error;
+    }
+
+    // 성공하는 경우 설정
+    return null;
+  },
+  null,
+);
+```
+
+첫번째 인자로 action을 받고, 두번째 인자로 초기값을 받습니다.
+이 action을 사용하려면 React 19 React Dom에서 변경한 action과 호응해야합니다.
+
+### React DOM `<Form>` action
+
+React 19는 `<form>`, `<input>`, `<button>` 요소의 `action` 및 `formAction` 속성에 함수를 전달하여 폼을 자동으로 제출하는 기능을 추가했습니다. 이를 통해 액션(Actions)과 폼을 쉽게 통합할 수 있습니다.
+
+```jsx
+<form action={actionFunction}>
+```
+
+**주요 내용:**
+
+* <b>액션 함수 전달:</b> `<form>` 요소의 `action` 속성에 액션 함수를 전달하여 폼 제출 시 해당 함수를 실행할 수 있습니다.
+* <b>자동 폼 초기화:</b> 액션이 성공적으로 완료되면 React는 자동으로 폼의 uncontrolled component를 초기화합니다.
+* <b>수동 폼 초기화:</b> 필요한 경우 `requestFormReset` API를 호출하여 폼을 수동으로 초기화할 수 있습니다.
+
+위와 같은 action과 useActionState를 활용하면 간단하게 로직을 작성할 수 있습니다.
+
+### React DOM: useFormStatus
+
+form에서는 구성 요소에 대한 세부 정보를 컨텍스트를 통해 수행할 수 있지만 일반적인 경우를 더 쉽게 만들기 위해 새 후크를 추가했습니다
+
+```jsx
+import {useFormStatus} from 'react-dom';
+
+function DesignButton() {
+  const {pending} = useFormStatus();
+  return <button type="submit" disabled={pending} />
+}
+```
+
+### useOptimistic
+낙관적 업데이트를 사용할 수 있습니다. 이를 통해 실제 작업이 걸리는 시간보다 더 빠르게 피드백을 줄 수 있습니다.
+```jsx
+useOptimistic(state, updateFn)
+```
+
+저장해야하는 상태에 대해서 받고, 이를 업데이트 하는 함수를 받을 수 있습니다.
+
+```jsx
+function Thread({ messages, sendMessage }) {
+  const formRef = useRef();
+  async function formAction(formData) {
+    addOptimisticMessage(formData.get("message"));
+    formRef.current.reset();
+    await sendMessage(formData);
+  }
+  const [optimisticMessages, addOptimisticMessage] = useOptimistic(
+    messages,
+    (state, newMessage) => [
+      ...state,
+      {
+        text: newMessage,
+        sending: true
+      }
+    ]
+  );
+
+  return (
+    <>
+      {optimisticMessages.map((message, index) => (
+        <div key={index}>
+          {message.text}
+          {!!message.sending && <small> (Sending...)</small>}
+        </div>
+      ))}
+      <form action={formAction} ref={formRef}>
+        <input type="text" name="message" placeholder="Hello!" />
+        <button type="submit">Send</button>
+      </form>
+    </>
+  );
+}
+```
+만약에 낙관적 업데이트가 실패한다면, 이전 값으로 전환합니다.
+(When the update finishes or errors, React will automatically switch back to the currentName value.)
+
+### use
+
+렌더링 과정에서 리소스(Promise, Context 등)를 읽는 새로운 API인 `use`를 소개합니다.
+
+이는 기존의 `useEffect`나 `useContext`와는 달리, 조건문이나 반복문 내에서도 사용할 수 있으며, Suspense와 Error Boundaries와 매끄럽게 통합되는 강력한 기능을 제공합니다.
+
+<b>1. Promise 읽기</b>
+
+```javascript
+import { use } from 'react';
+
+function Comments({ commentsPromise }) {
+  const comments = use(commentsPromise); // Promise 해결될 때까지 Suspense
+  return comments.map(comment => <p key={comment.id}>{comment}</p>);
+}
+
+function Page({ commentsPromise }) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Comments commentsPromise={commentsPromise} />
+    </Suspense>
+  );
+}
+```
+
+`use(commentsPromise)`는 Promise가 해결될 때까지 컴포넌트를 Suspense 상태로 만들어 로딩 UI를 보여줍니다. Promise가 해결되면, 데이터를 사용하여 UI를 렌더링합니다.
+
+<b>2. Context 읽기</b>
+
+```javascript
+import { use } from 'react';
+import ThemeContext from './ThemeContext';
+
+function Heading({ children }) {
+  if (children == null) {
+    return null;
+  }
+
+  const theme = use(ThemeContext); // useContext와 달리 조건문 내에서 사용 가능
+  return <h1 style={{ color: theme.color }}>{children}</h1>;
+}
+```
+
+`use(ThemeContext)`는 가장 가까운 Context Provider의 값을 읽어옵니다. 기존의 `useContext`와 달리 조건문이나 반복문 안에서도 사용할 수 있어 더욱 유연합니다.
+
+<b>주의 사항:</b>
+
+* `use`는 렌더링 시점에만 호출될 수 있습니다.
+* `use`에 전달되는 Promise는 렌더링 외부(props)에서 생성되어야 합니다.
+
+<b>결론:</b>
+
+`use` API는 React 19에서 새롭게 도입된 강력한 기능으로, 렌더링 시점에 리소스를 읽는 방식을 개선하고, Suspense와 Error Boundaries를 활용하여 더욱 풍부한 사용자 경험을 제공합니다. 앞으로 `use` API를 통해 더 다양한 리소스를 렌더링 시점에 활용할 수 있게 될 것으로 기대됩니다.
+
+
+### 마무리
+
+React 19 RC는 비동기 처리와 폼 관리를 위한 새로운 API를 도입하여 개발자 경험과 사용자 경험을 모두 향상시키는 데 중점을 두었습니다.
+
+특히, useTransition, useOptimistic, useActionState 등의 훅은 비동기 작업을 보다 효율적으로 처리하고 UI의 응답성을 높여줍니다.
+
+또한, 새롭게 추가된 use API는 렌더링 시점에 리소스를 읽는 방식을 개선하여 코드의 가독성과 유지보수성을 높여줍니다.
+
+React 19 RC에 관해서 알아보았습니다. 감사합니다.
