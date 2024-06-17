@@ -1,0 +1,170 @@
+---
+title: 웹페이지 레이아웃용 HTML 태그와 HTML의 id,class 속성
+description: 웹페이지의 UI를 만들기 위한 HTML 태그에는 무엇이 있는지, HTML의 id와 class 속성은 무엇인지 설명합니다.
+thumbnail: /website-layout.webp
+categories: HTML
+writeDate: "2024-06-12T16:28:45Z"
+releaseDate: "2024-06-17T23:50:45Z"
+authorName: Jin
+authorIcon: /authorIcon/KMJ.webp
+authorIntro: 괴발개발
+---
+<br/>
+## 들어가는 글
+
+안녕하세요. 😊 오늘은 지난 시간에 말씀드린 것 처럼 웹페이지를 좀 더 풍성하게 만들어 보도록 하겠습니다.
+혹시 HTML에 대해서 아직 모르시는 분이 계시다면 [html은 무엇인가](https://www.devdive.co.kr/html/what-is-html) 글을 읽고 오신다면 이번 글을 더욱 이해하기 수월해 질 것 입니다.
+HTML로 웹페이지를 만들 수 있다는 것 까지는 이해하셨을까요? 오늘은 지난 시간에 이어 웹페이지에 단순 텍스트가 아닌 보다 다양한 콘텐츠를 표현하는 방법에 대해서 나누고자 합니다.
+
+## html tag for layout: header, nav, section, article, aside, footer
+
+태그 다양한 종류가 있고, 이 중에는 웹 페이지의 전체적인 레이아웃을 만드는 태그도 존재합니다.
+우선 이 태그들 부터 간단히 알아야 웹 페이지에 원하시는 틀을 만들어 갈 수 있으시겠죠?
+<br/>
+<br/><br/>
+<img src="/html-layout.webp" alt="description for semantic tag" width={200} height={80} />
+<br/>
+위의 이미지는 레이아웃에 사용되는 태그들을 이해하기 쉽게 도식화하여 표현한 것입니다. 하나씩 설명드릴게요.
+<br/>
+### header
+- `<header>`태그는 단어가 의미하는 바와 같이 머리말에 해당합니다. 웹페이지 전체의 헤더는 보통 페이지 맨 위쪽에 삽입합니다.
+
+```html
+<article>
+  <header>
+    <h1>WWF(세계 자연 기금)이 하는 일은?</h1>
+    <p>WWF의 목표:</p>
+  </header>
+  <p>WWF의 임무는 지구의 자연환경이 악화되는 것을 막고, 인간이 자연과 조화롭게 살아가는 미래를 건설하는 것입니다.
+</p>
+</article>
+```
+
+### nav
+- `<nav>`태그는 다른 문서로 연결하는 링크 모음을 나타냅니다. 사용하는 위치의 영향을 받지 않아 `<header>, <footer>, <aside>` 태그 안에 포함시킬 수도 있고 독립해 사용할 수도 있습니다.
+
+```html
+<nav>
+  <a href="/html">HTML</a>
+  <a href="/css">CSS</a>
+</nav>
+```
+
+
+### section
+- `<section>`태그는 문서에서 콘텐츠 영역을 나타냅니다. 문맥의 흐름 중에서 콘텐츠를 주제별로 묶을 때 사용하며 그 안에는 섹션 제목을 나타내는 `<h1>~<h6>` 제목 태그가 함께 사용됩니다.
+
+```html
+<section>
+<h1>WWF</h1>
+<p>World Wide Fund for Nature (WWF)은 환경의 보존, 연구 및 복원에 관한 문제를 연구하는 국제기구로, 이전에는 World Wildlife Fund로 명명되었습니다.</p>
+</section>
+```
+### article
+- `<section>` 태그와 비슷하여 혼동하기 쉬운 `<article>` 태그는 웹 상의 실제 내용을 넣습니다. 하나의 완전한 콘텐츠 입니다.
+
+
+```html
+<article>
+<h2>마이크로소프트 엣지</h2>
+<p>마이크로소프트 엣지(Microsoft Edge)는 마이크로소프트가 개발한 웹 브라우저로, 2015년에 출시되었다. 마이크로소프트 엣지가 인터넷 익스플로러를 대체했다.</p>
+</article>
+```
+### aside
+- `<aside>` 태그는 블로그의 왼쪽이나 오른쪽 사이드바처럼 메인 컨텐츠와는 살짝 분리되는 컨텐츠를 표현할 때 사용합니다.
+
+```html
+<p>저는 이번 여름에 가족과 함께 Epcot Center를 방문했습니다. 날씨가 너무 좋아서 가족과 함께 즐거운 여름을 보냈습니다!</p>
+<aside>
+<h4>Epcot Center</h4>
+<p>엡콧(Epcot)은 월트 디즈니 월드 리조트(Walt Disney World Resort)의 테마 파크로, 신나는 볼거리, 국제관, 수상 경력이 있는 불꽃놀이, 계절별 특별 이벤트 등이 있습니다.</p>
+</aside>
+```
+
+### footer
+- `<footer>`태그는 문서의 하단부분을 지칭합니다. 보통 저자, 저작권, 컨택 정보등을 표시하며 위치는 보통 문서의 최하단입니다.
+
+```html
+<footer>
+  <p>Author: Jin</p>
+  <p>Contact: hell0stranger@sample.com</p>
+</footer>
+```
+
+### div
+
+- 위에 설명 드린 header, nav, section, article, aside, footer과 같이 태그안에 포함된 콘텐츠의 의미를 정의하는 태그를 시맨틱 태그라고 부릅니다. 시맨틱태그가 아니지만 레이아웃을 표현할 수 있는 아주 강력한 태그중에 `<div>`가 있습니다. 레이아웃을 만들거나 콘텐츠를 나누는(division) 컨테이너로 사용합니다.
+ _(사실 div만 있어도 모든 레이아웃은 그릴 수 있어서 div만 주구장창 쓰게 될 수 있는데요..시맨틱 태그로 표현할 수 있는 것들은 최대한 시맨틱 태그로 표현하는 습관을 들입시다)_
+
+```html
+<div class="myDiv">
+  <h2>div 안의 제목</h2>
+  <p>div 안의 텍스트</p>
+</div>
+```
+## html tag - class & id
+
+html에는 속성이 있고 속성값이 있다고 설명드렸습니다.  html의 속성 중에 class와 id라는 속성이 있습니다. html은 모든 태그의 클래스와 아이디를 지정해 줄 수 있습니다. 그리고 이렇게 부여한 클래스와 아이디에 CSS를 적용할 수 있습니다.
+CSS는 html을 스타일링 해주는 것이다. 라고 생각하면 됩니다. (다음 포스팅에서 자세하게 설명 예정)
+
+### class
+
+```html
+<div class="blue">box1</div>
+<div class="blue">box2</div>
+<div class="red">box3</div>
+<div class="red">box4</div>
+```
+```css
+.blue { 👈🏼 .blue에서 '.'은 '선택자'입니다. (=선택할 수 있게 해줌, 즉 class가 blue인 태그를 선택할 수 있게 해줌)
+    background-color: blue; 👈🏼 class가 "blue" 인 태그의 배경색상을 blue로 바꿔라
+}
+.red {
+    background-color: red;  👈🏼 class가 "red" 인 태그의 배경색상을 red로 바꿔라
+}
+```
+
+CSS의 생김새도 처음보고, class도 처음보지만 나름 직관적이지요?
+class는 말 그대로 학급? 같은 개념인데요. <b>같은 클래스를 가지고 있다면 동일한 CSS를 적용</b>할 수 있게됩니다.
+공통적으로 적용하고 싶은 속성들은 class로 만들어서 적용하면 간편하겠죠?
+
+실제로 결과는 다음과 같이 나타납니다.
+
+<img src="/html-class-example.webp" alt="html class property example" width={200} height={80} />
+
+
+### id
+
+태그의 id는 주민등록번호와 같습니다. 즉, 동일 웹페이지에서 동일한 id는 하나만 존재해야합니다.
+id의 중복은 일어나지 않습니다. 태그에 id를 지정하면 어떤 장점이 있을까요? 우리가 주민등록번호를 조회하면 대상의 정보를 알 수 있듯이 태그의 아이디를 조회하면 무수히 많은 태그중에서 해당 아이디를 가진 태그를 빠르게 식별할 수 있습니다.
+또한 이 id에게만 특별하게 CSS를 주는것도 가능합니다. 예를들어, 위의 코드에서 box4의 글자 색상만 흰색으로 변경하고 싶다면, 다음과 같은 코드를 적용해 볼 수 있습니다.
+
+```html
+<div class="blue">box1</div>
+<div class="blue">box2</div>
+<div class="red">box3</div>
+<div class="red" id="unique">box4</div>
+```
+```css
+.blue {
+    background-color: blue;
+}
+.red {
+    background-color: red;
+}
+#unique{ 👈🏼 '#'도 선택자입니다. '#'은 id를 선택할 수 있게 해줍니다.
+    color: white;
+}
+```
+실제로 결과는 다음과 같이 나타납니다.
+
+<img src="/html-id-example.webp" alt="html id property example" width={200} height={200} />
+
+
+
+## 마치며
+
+오늘 소화시킨 시맨틱 태그, id, class, css, 선택자 이 네가지를 이해하셨다면 다음 시간에는 실제로 CSS를 VSCode에서 적용시키는 방법에 대해서 설명드리겠습니다. 다음 포스팅 전까지
+시맨틱 태그를 모두 활용해서 하나의 웹 페이지 만들어보기를 해 보시면 좋을 것 같습니다. 예제를 검색해보면 예제도 많이 나와있으니깐요 충분히 이해될 때 까지 코딩해보시는 것을 추천드립니다.
+글을 읽어주셔서 감사합니다.
+<br/><br/><br/>
