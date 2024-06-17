@@ -8,7 +8,7 @@ declare global {
 
 const GoogleAdsense = () => {
 	return (
-		<>
+		<div className="min-w-[300px] min-h-[300px]">
 			<Script
 				async
 				src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2439139777355926"
@@ -32,7 +32,7 @@ const GoogleAdsense = () => {
 				data-ad-client="ca-pub-2439139777355926"
 				data-ad-slot="5345902155"
 			/>
-		</>
+		</div>
 	);
 };
 

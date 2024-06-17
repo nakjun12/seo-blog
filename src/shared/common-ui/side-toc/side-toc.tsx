@@ -6,6 +6,7 @@ import {
 } from "@/src/entities/posts/lib/utils/toc.util";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { GoogleAdsense } from "./side-adsense";
 
 interface TocProps {
 	toc: TocItem[];
@@ -117,7 +118,7 @@ export const SideToc = ({ toc }: TocProps) => {
 						</li>
 					))}
 				</ul>
-				{/* <GoogleAdsense /> */}
+				<GoogleAdsense />
 			</div>
 		</aside>
 	);
