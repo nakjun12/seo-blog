@@ -1,0 +1,183 @@
+---
+title: 타입스크립트 제네릭 배워보기
+description: 빠르고 쉽게 generic, extends, infer에 대해 정리해보았습니다.
+thumbnail: /thumbnail-ts.jpg
+categories: Typescript
+authorName: 황낙준
+authorIcon: authorIcon/HNJ.webp
+authorIntro: 안녕하세요 황낙준입니다.
+writeDate: 2024-06-27 08:13:39
+releaseDate: 2024-06-28 09:00:00
+---
+
+# 타입스크립트 제네릭 배워보기
+
+
+저는 타입스크립트의 제네릭에 대해 공부하면서 이개념이 많이 헷갈렸습니다.
+이번에 운이 좋게 인동댕이라는 채널의 조마허님이 설명하시는 부분을 듣고, 도움이 많이 되었는데요
+여기서 조마허님이 사용하신 코드를 참고하여 간단하게 정리해보았습니다.
+
+제가 본 유투브 영상에 관심 있으신 분들은 하단에 링크를 넣었으니 참고해주시면 감사하겠습니다.
+
+<br/>
+
+## 🙌 javascript와 비교하기
+
+```jsx
+const test = (a: number) = > a;
+const res = test(2);
+```
+위와 같은 코드가 있다면 res는 2가 나왔을 겁니다.
+함수를 선언하고, 거기에 인자를 넘겨주면 그 값을 넘겨주는 형식입니다.
+
+이를 타입스크립트로 한번 선언해보겠습니다.
+
+
+```ts
+type Test<T> = T
+
+type CC = Test<2>;
+```
+
+위처럼 타입스크립트로 선언해보았습니다.
+CC의 타입은 2로 나올 것입니다.
+
+type Test는 js로 비유하자면 기존의 test 함수와 동일한 메커니즘을 가지고 있습니다.
+흡사 제네릭은 매개변수와 비슷합니다.
+
+<br/>
+
+## 👀 extends에 관해 알아보기
+
+우리는 위처럼 Test 코드를 활용하여서 작성해보았습니다.
+이번에는 extends에 관해 알아볼건데요 이는 부분 집합에 대해 선언하는 것입니다.
+이를 통해 제네릭에 들어올 수 있는 타입을 제한할 수 있습니다.
+
+예를 들면 저희가 제네릭에 string이 오기를 바랬는데, number가 들어오면
+오류를 내어서 이를 보호해야겠죠? 이런 경우에 사용하면 됩니다.
+
+한번 예시를 통해 간단하게 살펴보겠습니다.
+
+```ts
+type Test<T extends number> = T
+
+type CC = Test<1> // 1
+type DD = Test<[1]>// error
+```
+
+위처럼 부분집합을 선언하여 제네릭에 들어올 수 있는 타입을 제한 할 수 있습니다.
+여기서는 number를 받을 수 있게 설정하였고, number[] 타입이 들어오니 바로 error가 떠서
+안전하게 타입을 지킬 수 있었습니다.
+
+이번에는 extends를 조건문처럼 사용해보려고합니다.
+제네릭을 통해 특정 부분집합만 받고 싶은데, 항상 그러기 쉽지 않으니
+이런 경우에 맞추어 타입을 핸들링을 해주어야겠죠? 그럴때는 extends를 통해 타입을 관리할 수 있습니다.
+
+<br/>
+
+## 🤔 extends if문처럼 사용해보기
+
+타입스크립트를 사용하다보면 조건문을 사용하고 싶은 경우가 있습니다.
+이런 경우에는 extends를 활용하여서 줄 수 있습니다.
+
+예제를 보겠습니다.
+
+```ts
+type Test<T extends number> = T extends 2? 3:4;
+
+type CC = Test<2>
+```
+
+위에서 CC는 2가 아닌 3이 들어옵니다.
+
+왜냐하면 `T extends 2? 3:4`를 통해서 2인지를 확인하고 맞다면 3 아니라면 4를 선언하는 코드를 작성했기 때문입니다.
+
+이렇게 조건문으로 사용할 수 있습니다.
+
+그런데 만약에 들어오는 제네릭에 특정한 값을 추출하여서 타입으로 선언하고 싶다면 어떻게 해야할까요?
+배열이 들어오는데 전부다 다른 타입이고, 그중에서 가장 첫번째 혹은 두번째 값을 타입으로 선언하고 싶다면 어떻게 사용해야할까요?
+
+이러한 문제를 해결하는 infer에 대해 알아보도록 하겠습니다.
+
+<br/>
+
+## 😀 infer 활용해보기
+
+`infer` 키워드는 TypeScript의 조건부 타입에서 사용하는 특별한 타입입니다.
+조건부 타입의 extends 절 안에서 새로운 타입 변수를 선언하고, 이를 통해 다른 타입에서 특정 타입 정보를 추출하거나 조작할 수 있게 해줍니다.
+
+실제 예시를 통해 살펴보겠습니다.
+
+
+```ts
+type Head<T extends any[]> = T extends [infer A, ...any[]]? A: undefined
+```
+
+위처럼 `any []`의 부분집합을 받는 코드를 작성하였고,
+이 배열에서 가장 앞의 값을 infer A로 선언하여 추출하는 방법을 사용했습니다.
+
+한번 값을 넣어보겠습니다.
+
+```ts
+type CC = Head<[1,2,3,4]>
+```
+
+결과로 CC는 1이 나옵니다.
+왜냐하면 맨 앞을 infer A를 통해 추출해서 배열 맨 앞을 타입으로 결정하는 것이기 때문입니다.
+
+우리는 이렇게 원하는 부분의 값을 추출해서 타입으로 만들어줄 수 있습니다.
+
+몇개의 예시를 더보겠습니다.
+
+```ts
+type AA = Head<["하이","바이"]>
+type BB = Head<[2,3]>
+type CC = Head<[1]>
+type DD = Head<[]>
+```
+위와 같은 경우 답이 어떻게 나올까요?
+
+순서대로 "하이", 2, 1, undefined가 나오게 됩니다.
+마지막 DD같은 경우에는 infer A에 해당하는 값을 찾을 수 없기 때문에 false인 undefined가 나옵니다.
+
+감이 오시나요~? 더 확실하게 아실 수 있도록 몇개의 예시를 더 보겠습니다.
+
+```ts
+type SecondElement<T extends [any, any, ...any[]]> = T extends [any, infer U, ...any[]] ? U : never;
+
+type MyTuple = [number, string, boolean];
+type SecondElementType = SecondElement<MyTuple>; // string
+```
+
+이번에는 배열의 첫번째 값이 아니라 2번째로 들어오는 값을 확인할 수 있도록 코드를 작성해보았습니다.
+이런식으로 유연하게 우리가 원하는 타입을 추출해서 만들어줄 수 있습니다.
+
+
+```ts
+type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+
+type ResolvedString = UnwrapPromise<Promise<string>>; // string
+type NumberValue = UnwrapPromise<number>; // number
+```
+
+promise에 들어오는 타입을 찾아서 이를 추출하는 형식으로 사용하였습니다.
+promise안에서 우리가 원하는 타입을 사용할때 유용하게 사용할 수 있을 것 같습니다.
+
+
+이렇게 infer를 사용해서 특정 타입을 추출해서 조건문을 세우고 관리할 수 있습니다.
+
+<br/>
+
+### 😊 마무리
+
+오늘 간단하게 제네릭이 어떠한 것인지 알아보았고, extends를 활용해서 부분집합으로 범위를 좁혀보았습니다.
+또한 infer을 사용해서 조건문까지 활용하는 방법에 대해 알아 보았습니다.
+
+저같은 경우에는 extends나 infer에 대해 설명하는 것들이 와닿지 않았는데,
+조마허님의 유투브를 보고 빠르게 익힐 수 있었고, 이번에 저와 같은 고민을 하시는 분들에게 도움이 되었으면 하는 마음에 작성을 하였습니다.
+
+다들 화이팅하셨으면 좋겠네요~ 감사합니다.
+
+<br/>
+
+출처: [https://www.youtube.com/@indongdang](https://www.youtube.com/@indongdang) (타입 잘다루기)
